@@ -1,35 +1,17 @@
 const express = require("express");
 
-const Season = require("../models/seasonModel");
+const { getSeasons, getSeason, createSeason, deleteSeason, updateSeason } = require("../controllers/seasonController");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({ msg: "GET all seasons" });
-});
+router.get("/", getSeasons);
 
-router.get("/:id", (req, res) => {
-  res.json({ msg: "GET single season" });
-});
+router.get("/:id", getSeason);
 
-router.post("/", async (req, res) => {
-  const { season } = req.body;
+router.post("/", createSeason);
 
-  try {
-    const createdSeason = await Season.create({ season });
+router.delete("/:id", deleteSeason);
 
-    res.status(200).json(createdSeason);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-router.delete("/:id", (req, res) => {
-  res.json({ msg: "DELETE single season" });
-});
-
-router.patch("/:id", (req, res) => {
-  res.json({ msg: "UPDATE single season" });
-});
+router.patch("/:id", updateSeason);
 
 module.exports = router;

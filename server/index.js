@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-const seasonRoutes = require("./routes/seasons");
+const gameRoutes = require("./routes/games");
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/api/seasons", seasonRoutes);
+app.use("/api/games", gameRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

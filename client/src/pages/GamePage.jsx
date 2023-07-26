@@ -1,5 +1,5 @@
 //Taylor Zweigle, 2023
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
@@ -15,21 +15,37 @@ import { formations, plays, positions } from "../data/foundations";
 
 import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
+import { calculateWin, convertDate } from "../utility/utility";
+
 const GamePage = () => {
   const params = useParams();
 
+  const [game, setGame] = useState({});
+
+  useEffect(() => {
+    const fetchGame = async () => {
+      const response = await fetch("/api/games/" + params.id);
+
+      if (response.ok) {
+        setGame(await response.json());
+      }
+    };
+
+    fetchGame();
+  }, [params.id]);
+
   const details = [
-    { label: "Date", value: "00/00/0000" },
-    { label: "Location", value: "N/A" },
-    { label: "Result", value: "N/A" },
-    { label: "Score", value: "0-0" },
+    { label: "Date", value: convertDate(game.date) },
+    { label: "Location", value: game.location },
+    { label: "Result", value: calculateWin(game.score, game.opponentScore) ? "W" : "L" },
+    { label: "Score", value: `${game.score}-${game.opponentScore}` },
     { label: "Plays", value: "0" },
   ];
 
   return (
     <Grid container>
       <Grid item xs={12} md={12}>
-        <GameHeaderCard title={params.id} details={details} />
+        <GameHeaderCard title={game.opponent} details={details} />
       </Grid>
       <Grid item xs={12} md={12} sx={mediaQueryDisplayNoneStyle}>
         <DetailsCard details={details} />

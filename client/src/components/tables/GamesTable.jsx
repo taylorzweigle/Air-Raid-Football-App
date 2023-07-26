@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 
 import TableTypography from "../TableTypography";
 
-import { calculateWin } from "../../utility/utility";
+import { calculateWin, convertDate } from "../../utility/utility";
 
 const GamesTable = ({ games }) => {
   const headerCellStyle = {
@@ -30,7 +30,7 @@ const GamesTable = ({ games }) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell sx={headerCellStyle}>Result</TableCell>
+          <TableCell sx={headerCellStyle}></TableCell>
           <TableCell sx={headerCellStyle}>Opponent</TableCell>
           <TableCell sx={headerCellStyle}>Location</TableCell>
           <TableCell sx={headerCellStyle}>Date</TableCell>
@@ -41,7 +41,7 @@ const GamesTable = ({ games }) => {
       <TableBody>
         {games &&
           games.map((game) => (
-            <TableRow key={game._id} to={`/${game.opponent}`} component={RouterLink} sx={tableRowStyle} hover>
+            <TableRow key={game._id} to={`/${game._id}`} component={RouterLink} sx={tableRowStyle} hover>
               <TableCell sx={cellStyle}>
                 <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>
                   {calculateWin(game.score, game.opponentScore) ? "W" : "L"}
@@ -56,7 +56,7 @@ const GamesTable = ({ games }) => {
                 <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>{game.location}</TableTypography>
               </TableCell>
               <TableCell sx={cellStyle}>
-                <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>{game.date}</TableTypography>
+                <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>{convertDate(game.date)}</TableTypography>
               </TableCell>
               <TableCell sx={cellStyle}>
                 <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>

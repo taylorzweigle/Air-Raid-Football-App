@@ -21,3 +21,13 @@ export const getRecord = (games) => {
 
   return `${wins}-${losses}`;
 };
+
+export const convertDate = (date) => {
+  if (date) {
+    const monthMap = [null, "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    let month = monthMap[parseInt(date.slice(0, 2))];
+
+    return `${month} ${parseInt(date.slice(3, 5))}, ${date.slice(6, 10)}`;
+  }
+};

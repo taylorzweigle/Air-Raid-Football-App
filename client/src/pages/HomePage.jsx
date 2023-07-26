@@ -1,5 +1,6 @@
 //Taylor Zweigle, 2023
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import Grid from "@mui/material/Grid";
 
@@ -15,9 +16,42 @@ import { formations, plays, positions } from "../data/foundations";
 
 import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
+import { getGamesForSeason, getRecord } from "../utility/utility";
+
 const HomePage = () => {
+  const selectedSeason = useSelector((state) => state.season);
+
+  const [games, setGames] = useState(null);
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      const response = await fetch("/api/games");
+
+      if (response.ok) {
+        setGames(await response.json());
+      }
+    };
+
+    fetchGames();
+  }, []);
+
+  /*const handleDelete = async (id) => {
+    const response = await fetch("/api/games/" + id, {
+      method: "DELETE",
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      setError(json.error);
+    }
+    if (response.ok) {
+      setError(null);
+    }
+  };*/
+
   const tempDetails = [
-    { label: "Record", value: "0-0" },
+    { label: "Record", value: getRecord(getGamesForSeason(games, selectedSeason)) },
     { label: "Total Plays", value: "0" },
     { label: "Plays per Game", value: "0" },
     { label: "First Downs", value: "0" },
@@ -33,7 +67,7 @@ const HomePage = () => {
         <DetailsCard details={tempDetails} />
       </Grid>
       <Grid item xs={12} md={5}>
-        <GamesCard />
+        <GamesCard games={games} />
         <PlayPreviewCard />
       </Grid>
       <Grid item xs={12} md={7}>

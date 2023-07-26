@@ -29,7 +29,7 @@ const HeaderCard = ({ navigationButton, title, details, actionButton }) => {
         </Stack>
         <Stack direction="row" alignItems="center" spacing={8} sx={mediaQueryDisplayFlexStyle}>
           {details.map((item) => (
-            <ReadOnlyData key={item.value} label={item.label} value={item.value} direction="row" />
+            <ReadOnlyData key={item.label} label={item.label} value={item.value} direction="row" />
           ))}
         </Stack>
         <Stack direction="row" alignItems="center" spacing={2}>

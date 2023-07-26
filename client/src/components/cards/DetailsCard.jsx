@@ -11,7 +11,7 @@ const DetailsCard = ({ details }) => {
     <Card padding>
       <Stack direction="row" alignItems="center" justifyContent="space-around">
         {details.map((item) => (
-          <ReadOnlyData key={item.value} label={item.label} value={item.value} direction="row" />
+          <ReadOnlyData key={item.label} label={item.label} value={item.value} direction="row" />
         ))}
       </Stack>
     </Card>

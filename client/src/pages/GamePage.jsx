@@ -11,7 +11,7 @@ import DetailsCard from "../components/cards/DetailsCard";
 import GameHeaderCard from "../components/cards/GameHeaderCard";
 import PlaysCard from "../components/cards/PlaysCard";
 
-import { formations, plays, positions } from "../data/foundations";
+import { dataFormations, dataPlays, dataPositions } from "../data/foundations";
 
 import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
@@ -56,15 +56,15 @@ const GamePage = () => {
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">
           <BarChart
-            series={plays.map((play) => play.replaceAll("/", " / "))}
+            series={dataPlays.map((play) => play.replaceAll("/", " / "))}
             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
           />
         </ChartCard>
         <ChartCard header="Formations">
-          <BarChart series={formations} data={[0, 0, 0, 0, 0, 0, 0]} />
+          <BarChart series={dataFormations} data={[0, 0, 0, 0, 0, 0, 0]} />
         </ChartCard>
         <ChartCard header="Positions">
-          <BarChart series={positions} data={[0, 0, 0, 0, 0]} />
+          <BarChart series={dataPositions} data={[0, 0, 0, 0, 0]} />
         </ChartCard>
       </Grid>
     </Grid>

@@ -11,9 +11,7 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import TableTypography from "../TableTypography";
 
-const PlaysTable = () => {
-  const data = [];
-
+const PlaysTable = ({ plays }) => {
   const headerCellStyle = {
     padding: "8px 16px",
     backgroundColor: "background.border",
@@ -41,31 +39,32 @@ const PlaysTable = () => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((play) => (
-          <TableRow key={play.id} sx={tableRowStyle} hover>
-            <TableCell sx={cellStyle}>
-              <TableTypography>{`${play.down} ${play.distance}`}</TableTypography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <TableTypography>{play.formation}</TableTypography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <TableTypography isBold>{play.play}</TableTypography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <TableTypography>{play.position}</TableTypography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <TableTypography>{play.firstDown ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <TableTypography>{play.touchdown ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
-            </TableCell>
-            <TableCell sx={cellStyle}>
-              <TableTypography>{play.interception ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
-            </TableCell>
-          </TableRow>
-        ))}
+        {plays &&
+          plays.map((play) => (
+            <TableRow key={play.id} sx={tableRowStyle}>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{`${play.down} ${play.distance}`}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.formation}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography isBold>{play.play}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.position}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.firstDown ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.touchdown ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.interception ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
+              </TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   );

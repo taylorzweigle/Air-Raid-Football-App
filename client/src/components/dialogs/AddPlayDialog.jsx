@@ -4,19 +4,19 @@ import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-import SelectButton from "../buttons/SelectButton";
+import ButtonGroup from "../buttons/ButtonGroup";
 
 import Dialog from "../Dialog";
 
-import { dataDowns, dataDistances, dataFormations, dataPlays, dataPositions } from "../../data/foundations";
+import { DOWNS, DISTANCES, FORMATIONS, PLAYS, POSITIONS, RESULTS } from "../../data/foundations";
 
-const AddPlayDialog = ({ open, onClose }) => {
-  const [dateKey, setDateKey] = useState("09/02/2017");
+const AddPlayDialog = ({ dateKey, open, onClose }) => {
   const [down, setDown] = useState("");
   const [distance, setDistance] = useState("");
   const [formation, setFormation] = useState("");
   const [play, setPlay] = useState("");
   const [position, setPosition] = useState("");
+  const [result, setResult] = useState("");
   const [firstDown, setFirstDown] = useState(false);
   const [touchdown, setTouchdown] = useState(false);
   const [interception, setInterception] = useState(false);
@@ -46,18 +46,35 @@ const AddPlayDialog = ({ open, onClose }) => {
     }
   };
 
+  const handleResultChange = (e, value) => {
+    setResult(value);
+
+    if (value === "First Down") {
+      setFirstDown(true);
+      return;
+    }
+    if (value === "Touchdown") {
+      setTouchdown(true);
+      return;
+    }
+    if (value === "Interception") {
+      setInterception(true);
+      return;
+    }
+  };
+
   const handleClose = () => {
     clearForm();
     onClose();
   };
 
   const clearForm = () => {
-    setDateKey("09/02/2017");
     setDown("");
     setDistance("");
     setFormation("");
     setPlay("");
     setPosition("");
+    setResult("");
     setFirstDown(false);
     setTouchdown(false);
     setInterception(false);
@@ -69,26 +86,27 @@ const AddPlayDialog = ({ open, onClose }) => {
       <Stack direction="column" spacing={2}>
         <Stack direction="column" spacing={1}>
           <Typography variant="subtitle1">Down</Typography>
-          <SelectButton items={dataDowns} defaultValue={null} onSelect={(down) => setDown(down)} />
+          <ButtonGroup items={DOWNS} value={down} onChange={(e, value) => setDown(value)} />
         </Stack>
         <Stack direction="column" spacing={1}>
           <Typography variant="subtitle1">Distance</Typography>
-          <SelectButton items={dataDistances} defaultValue={null} onSelect={(distance) => setDistance(distance)} />
+          <ButtonGroup items={DISTANCES} value={distance} onChange={(e, value) => setDistance(value)} />
         </Stack>
         <Stack direction="column" spacing={1}>
           <Typography variant="subtitle1">Formation</Typography>
-          <SelectButton items={dataFormations} defaultValue={null} onSelect={(formation) => setFormation(formation)} />
+          <ButtonGroup items={FORMATIONS} value={formation} onChange={(e, value) => setFormation(value)} />
         </Stack>
         <Stack direction="column" spacing={1}>
           <Typography variant="subtitle1">Play</Typography>
-          <SelectButton items={dataPlays} defaultValue={null} onSelect={(play) => setPlay(play)} />
+          <ButtonGroup items={PLAYS} value={play} onChange={(e, value) => setPlay(value)} />
         </Stack>
         <Stack direction="column" spacing={1}>
           <Typography variant="subtitle1">Position</Typography>
-          <SelectButton items={dataPositions} defaultValue={null} onSelect={(position) => setPosition(position)} />
+          <ButtonGroup items={POSITIONS} value={position} onChange={(e, value) => setPosition(value)} />
         </Stack>
         <Stack direction="column" spacing={1}>
           <Typography variant="subtitle1">Result</Typography>
+          <ButtonGroup items={RESULTS} value={result} onChange={handleResultChange} />
         </Stack>
       </Stack>
     </Dialog>

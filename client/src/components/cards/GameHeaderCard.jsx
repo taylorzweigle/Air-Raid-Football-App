@@ -11,7 +11,7 @@ import HeaderCard from "./HeaderCard";
 
 import AddPlayDialog from "../dialogs/AddPlayDialog";
 
-const GameHeaderCard = ({ title, details }) => {
+const GameHeaderCard = ({ title, details, dateKey }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -33,7 +33,7 @@ const GameHeaderCard = ({ title, details }) => {
           </Button>
         }
       />
-      <AddPlayDialog open={open} onClose={handleClose} />
+      <AddPlayDialog dateKey={dateKey} open={open} onClose={handleClose} />
     </>
   );
 };

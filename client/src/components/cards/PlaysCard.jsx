@@ -4,10 +4,16 @@ import React from "react";
 import Card from "../Card";
 import PlaysTable from "../tables/PlaysTable";
 
-const PlaysCard = () => {
+const PlaysCard = ({ plays, dateKey }) => {
+  let filteredData = [];
+
+  if (plays) {
+    filteredData = plays.filter((play) => play.dateKey === dateKey);
+  }
+
   return (
     <Card>
-      <PlaysTable />
+      <PlaysTable plays={filteredData} />
     </Card>
   );
 };

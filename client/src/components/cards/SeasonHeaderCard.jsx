@@ -11,7 +11,7 @@ import CreateGameDialog from "../dialogs/CreateGameDialog";
 
 import { season } from "../../actions";
 
-import { dataSeasons } from "../../data/foundations";
+import { SEASONS } from "../../data/foundations";
 
 const SeasonHeaderCard = ({ details }) => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const SeasonHeaderCard = ({ details }) => {
       <HeaderCard
         navigationButton={
           <SelectButton
-            items={dataSeasons}
+            items={SEASONS}
             defaultValue={selectedSeason}
             minWidth={128}
             onSelect={(season) => handleSeasonSelect(season)}

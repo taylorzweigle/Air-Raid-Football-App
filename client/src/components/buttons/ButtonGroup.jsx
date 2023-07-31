@@ -1,51 +1,22 @@
 //Taylor Zweigle, 2023
-import React, { useState } from "react";
+import React from "react";
 
-import { ButtonGroup as MuiButtonGroup } from "@mui/material/";
-import Stack from "@mui/material/Stack";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-import ButtonGroupButton from "./ButtonGroupButton";
-
-const ButtonGroup = ({ items }) => {
-  const [selected, setSelected] = useState("");
-
-  const getRows = () => {
-    let rows = [];
-    let prev = 0;
-    let count = items.length <= 5 ? 1 : Math.ceil(items.length / 5);
-
-    for (let i = 0; i < count; i++) {
-      rows.push(items.slice(prev, prev + 5));
-      prev += 5;
-    }
-
-    return rows;
-  };
-
-  const handleOnClick = (item) => {
-    if (item === selected) {
-      setSelected("");
-    } else {
-      setSelected(item);
-    }
-  };
-
-  const buttonGroupStyle = {
-    width: "100%",
+const ButtonGroup = ({ items, value, onChange }) => {
+  const toggleButtonStyle = {
+    backgroundColor: "background.paper",
   };
 
   return (
-    <Stack direction="column" spacing={0}>
-      {getRows().map((row) => (
-        <MuiButtonGroup key={row} sx={buttonGroupStyle}>
-          {row.map((item) => (
-            <ButtonGroupButton key={item} selected={selected === item} onClick={(item) => handleOnClick(item)}>
-              {item}
-            </ButtonGroupButton>
-          ))}
-        </MuiButtonGroup>
+    <ToggleButtonGroup value={value} onChange={onChange} size="small" exclusive fullWidth>
+      {items.map((item) => (
+        <ToggleButton key={item} value={item} color="primary" sx={toggleButtonStyle}>
+          {item}
+        </ToggleButton>
       ))}
-    </Stack>
+    </ToggleButtonGroup>
   );
 };
 

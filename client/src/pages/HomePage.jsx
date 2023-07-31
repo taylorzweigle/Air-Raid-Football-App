@@ -12,7 +12,7 @@ import GamesCard from "../components/cards/GamesCard";
 import SeasonHeaderCard from "../components/cards/SeasonHeaderCard";
 import PlayPreviewCard from "../components/cards/PlayPreviewCard";
 
-import { dataFormations, dataPlays, dataPositions } from "../data/foundations";
+import { FORMATIONS, PLAYS, POSITIONS } from "../data/foundations";
 
 import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
@@ -73,15 +73,15 @@ const HomePage = () => {
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">
           <BarChart
-            series={dataPlays.map((play) => play.replaceAll("/", " / "))}
+            series={PLAYS.map((play) => play.replaceAll("/", " / "))}
             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
           />
         </ChartCard>
         <ChartCard header="Formations">
-          <BarChart series={dataFormations} data={[0, 0, 0, 0, 0, 0, 0]} />
+          <BarChart series={FORMATIONS} data={[0, 0, 0, 0, 0, 0, 0]} />
         </ChartCard>
         <ChartCard header="Positions">
-          <BarChart series={dataPositions} data={[0, 0, 0, 0, 0]} />
+          <BarChart series={POSITIONS} data={[0, 0, 0, 0, 0]} />
         </ChartCard>
       </Grid>
     </Grid>

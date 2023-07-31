@@ -8,7 +8,7 @@ import Card from "../Card";
 import Image from "../Image";
 import SelectInput from "../SelectInput";
 
-import { dataFormations, dataPlays } from "../../data/foundations";
+import { FORMATIONS, PLAYS } from "../../data/foundations";
 
 import { images } from "../../img/index";
 
@@ -23,8 +23,8 @@ const PlayPreviewCard = () => {
 
   const getSelectedPlay = (play) => "_" + play.toString().replaceAll(" ", "_").replaceAll("/", "_").toLowerCase();
 
-  const getFormations = () => dataFormations.slice(0, dataFormations.length - 1);
-  const getPlays = () => dataPlays.slice(0, dataPlays.length - 1);
+  const getFormations = () => FORMATIONS.slice(0, FORMATIONS.length - 1);
+  const getPlays = () => PLAYS.slice(0, PLAYS.length - 1);
 
   const headerStyle = {
     padding: "8px 16px",

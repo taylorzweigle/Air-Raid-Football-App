@@ -1,13 +1,13 @@
 //Taylor Zweigle, 2023
-export const dataSeasons = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
+export const SEASONS = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
 
-export const dataDistances = ["10", "Long", "Short", "Inches", "Goal-to-Go"];
+export const DISTANCES = ["10", "Long", "Short", "Inches", "Goal-to-Go"];
 
-export const dataDowns = ["1st", "2nd", "3rd", "4th"];
+export const DOWNS = ["1st", "2nd", "3rd", "4th"];
 
-export const dataFormations = ["Ace", "Green", "Blue", "Early", "Late", "Empty", "Special"];
+export const FORMATIONS = ["Ace", "Green", "Blue", "Early", "Late", "Empty", "Special"];
 
-export const dataPlays = [
+export const PLAYS = [
   "Run",
   "Rita/Lisa",
   "Randy/Larry",
@@ -28,4 +28,6 @@ export const dataPlays = [
   "Special",
 ];
 
-export const dataPositions = ["X", "H", "Y", "Z", "T"];
+export const POSITIONS = ["X", "H", "Y", "Z", "T"];
+
+export const RESULTS = ["First Down", "Touchdown", "Interception"];

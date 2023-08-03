@@ -1,5 +1,5 @@
 //Taylor Zweigle, 2023
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 import Grid from "@mui/material/Grid";
@@ -18,37 +18,8 @@ import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
 import { getGamesForSeason, getRecord } from "../utility/utility";
 
-const HomePage = () => {
+const HomePage = ({ games, plays }) => {
   const selectedSeason = useSelector((state) => state.season);
-
-  const [games, setGames] = useState(null);
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      const response = await fetch("/api/games");
-
-      if (response.ok) {
-        setGames(await response.json());
-      }
-    };
-
-    fetchGames();
-  }, []);
-
-  /*const handleDelete = async (id) => {
-    const response = await fetch("/api/games/" + id, {
-      method: "DELETE",
-    });
-
-    const json = await response.json();
-
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      setError(null);
-    }
-  };*/
 
   const tempDetails = [
     { label: "Record", value: getRecord(getGamesForSeason(games, selectedSeason)) },
@@ -57,6 +28,42 @@ const HomePage = () => {
     { label: "First Downs", value: "0" },
     { label: "Touchdowns", value: "0" },
   ];
+
+  const getPlaysTotals = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < PLAYS.length; i++) {
+        data.push(plays.filter((p) => p.play === PLAYS[i]).length);
+      }
+    }
+
+    return data;
+  };
+
+  const getFormationsTotals = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < FORMATIONS.length; i++) {
+        data.push(plays.filter((p) => p.formation === FORMATIONS[i]).length);
+      }
+    }
+
+    return data;
+  };
+
+  const getPositionsTotals = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < POSITIONS.length; i++) {
+        data.push(plays.filter((p) => p.position === POSITIONS[i]).length);
+      }
+    }
+
+    return data;
+  };
 
   return (
     <Grid container>
@@ -67,21 +74,18 @@ const HomePage = () => {
         <DetailsCard details={tempDetails} />
       </Grid>
       <Grid item xs={12} md={5}>
-        <GamesCard games={games} />
+        <GamesCard games={games} plays={plays} />
         <PlayPreviewCard />
       </Grid>
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">
-          <BarChart
-            series={PLAYS.map((play) => play.replaceAll("/", " / "))}
-            data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
-          />
+          <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
         </ChartCard>
         <ChartCard header="Formations">
-          <BarChart series={FORMATIONS} data={[0, 0, 0, 0, 0, 0, 0]} />
+          <BarChart series={FORMATIONS} data={getFormationsTotals()} />
         </ChartCard>
         <ChartCard header="Positions">
-          <BarChart series={POSITIONS} data={[0, 0, 0, 0, 0]} />
+          <BarChart series={POSITIONS} data={getPositionsTotals()} />
         </ChartCard>
       </Grid>
     </Grid>

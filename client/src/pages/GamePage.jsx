@@ -17,23 +17,10 @@ import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
 import { calculateWin, convertDate } from "../utility/utility";
 
-const GamePage = () => {
+const GamePage = ({ plays }) => {
   const params = useParams();
 
-  const [plays, setPlays] = useState(null);
   const [game, setGame] = useState({});
-
-  useEffect(() => {
-    const fetchPlays = async () => {
-      const response = await fetch("/api/plays");
-
-      if (response.ok) {
-        setPlays(await response.json());
-      }
-    };
-
-    fetchPlays();
-  }, []);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -47,12 +34,58 @@ const GamePage = () => {
     fetchGame();
   }, [params.id]);
 
+  const getPlaysTotals = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < PLAYS.length; i++) {
+        data.push(plays.filter((p) => p.play === PLAYS[i] && p.dateKey === game.date).length);
+      }
+    }
+
+    return data;
+  };
+
+  const getFormationsTotals = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < FORMATIONS.length; i++) {
+        data.push(plays.filter((p) => p.formation === FORMATIONS[i] && p.dateKey === game.date).length);
+      }
+    }
+
+    return data;
+  };
+
+  const getPositionsTotals = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < POSITIONS.length; i++) {
+        data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date).length);
+      }
+    }
+
+    return data;
+  };
+
+  const getTotalPlays = () => {
+    const data = [];
+
+    if (plays) {
+      data.push(plays.filter((p) => p.dateKey === game.date).length);
+    }
+
+    return data;
+  };
+
   const details = [
     { label: "Date", value: convertDate(game.date) },
     { label: "Location", value: game.location },
     { label: "Result", value: calculateWin(game.score, game.opponentScore) ? "W" : "L" },
     { label: "Score", value: `${game.score}-${game.opponentScore}` },
-    { label: "Plays", value: "0" },
+    { label: "Plays", value: getTotalPlays() },
   ];
 
   return (
@@ -68,16 +101,13 @@ const GamePage = () => {
       </Grid>
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">
-          <BarChart
-            series={PLAYS.map((play) => play.replaceAll("/", " / "))}
-            data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
-          />
+          <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
         </ChartCard>
         <ChartCard header="Formations">
-          <BarChart series={FORMATIONS} data={[0, 0, 0, 0, 0, 0, 0]} />
+          <BarChart series={FORMATIONS} data={getFormationsTotals()} />
         </ChartCard>
         <ChartCard header="Positions">
-          <BarChart series={POSITIONS} data={[0, 0, 0, 0, 0]} />
+          <BarChart series={POSITIONS} data={getPositionsTotals()} />
         </ChartCard>
       </Grid>
     </Grid>

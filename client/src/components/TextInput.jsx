@@ -11,7 +11,7 @@ const TextInput = ({ label, type, value, onChange }) => {
   };
 
   return (
-    <Stack direction="column" spacing={1}>
+    <Stack direction="column" spacing={0}>
       <Typography variant="subtitle1">{label}</Typography>
       <TextField variant="outlined" size="small" type={type} value={value} onChange={onChange} sx={textFieldStyle} />
     </Stack>

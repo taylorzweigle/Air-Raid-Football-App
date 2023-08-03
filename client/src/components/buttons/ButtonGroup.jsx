@@ -7,6 +7,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 const ButtonGroup = ({ items, value, onChange }) => {
   const toggleButtonStyle = {
     backgroundColor: "background.paper",
+    borderColor: "grey.400",
   };
 
   return (

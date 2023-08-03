@@ -7,14 +7,14 @@ import GamesTable from "../tables/GamesTable";
 
 import { getGamesForSeason } from "../../utility/utility";
 
-const GamesCard = ({ games }) => {
+const GamesCard = ({ games, plays }) => {
   const selectedSeason = useSelector((state) => state.season);
 
   const filteredData = getGamesForSeason(games, selectedSeason);
 
   return (
     <Card>
-      <GamesTable games={filteredData} />
+      <GamesTable games={filteredData} plays={plays} />
     </Card>
   );
 };

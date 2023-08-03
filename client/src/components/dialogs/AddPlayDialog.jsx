@@ -46,6 +46,19 @@ const AddPlayDialog = ({ dateKey, open, onClose }) => {
     }
   };
 
+  const getRows = (items) => {
+    let rows = [];
+    let prev = 0;
+    let count = items.length <= 5 ? 1 : Math.ceil(items.length / 5);
+
+    for (let i = 0; i < count; i++) {
+      rows.push(items.slice(prev, prev + 5));
+      prev += 5;
+    }
+
+    return rows;
+  };
+
   const handleResultChange = (e, value) => {
     setResult(value);
 
@@ -84,27 +97,31 @@ const AddPlayDialog = ({ dateKey, open, onClose }) => {
   return (
     <Dialog title="Add Play" open={open} fullWidth={true} onClose={handleClose} onSubmit={handleSubmit}>
       <Stack direction="column" spacing={2}>
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={0}>
           <Typography variant="subtitle1">Down</Typography>
           <ButtonGroup items={DOWNS} value={down} onChange={(e, value) => setDown(value)} />
         </Stack>
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={0}>
           <Typography variant="subtitle1">Distance</Typography>
           <ButtonGroup items={DISTANCES} value={distance} onChange={(e, value) => setDistance(value)} />
         </Stack>
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={0}>
           <Typography variant="subtitle1">Formation</Typography>
           <ButtonGroup items={FORMATIONS} value={formation} onChange={(e, value) => setFormation(value)} />
         </Stack>
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={0}>
           <Typography variant="subtitle1">Play</Typography>
-          <ButtonGroup items={PLAYS} value={play} onChange={(e, value) => setPlay(value)} />
+          <Stack direction="column" spacing={0}>
+            {getRows(PLAYS).map((row) => (
+              <ButtonGroup key={row} items={row} value={play} onChange={(e, value) => setPlay(value)} />
+            ))}
+          </Stack>
         </Stack>
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={0}>
           <Typography variant="subtitle1">Position</Typography>
           <ButtonGroup items={POSITIONS} value={position} onChange={(e, value) => setPosition(value)} />
         </Stack>
-        <Stack direction="column" spacing={1}>
+        <Stack direction="column" spacing={0}>
           <Typography variant="subtitle1">Result</Typography>
           <ButtonGroup items={RESULTS} value={result} onChange={handleResultChange} />
         </Stack>

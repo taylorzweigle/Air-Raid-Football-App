@@ -12,7 +12,7 @@ import TableTypography from "../TableTypography";
 
 import { calculateWin, convertDate } from "../../utility/utility";
 
-const GamesTable = ({ games }) => {
+const GamesTable = ({ games, plays }) => {
   const headerCellStyle = {
     padding: "8px 16px",
     backgroundColor: "background.border",
@@ -24,6 +24,16 @@ const GamesTable = ({ games }) => {
 
   const cellStyle = {
     padding: "8px 16px",
+  };
+
+  const getTotalPlays = (dateKey) => {
+    const data = [];
+
+    if (plays) {
+      data.push(plays.filter((p) => p.dateKey === dateKey).length);
+    }
+
+    return data;
   };
 
   return (
@@ -64,7 +74,9 @@ const GamesTable = ({ games }) => {
                 </TableTypography>
               </TableCell>
               <TableCell sx={cellStyle}>
-                <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>0</TableTypography>
+                <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>
+                  {getTotalPlays(game.date)}
+                </TableTypography>
               </TableCell>
             </TableRow>
           ))}

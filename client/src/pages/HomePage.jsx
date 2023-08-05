@@ -39,7 +39,9 @@ const HomePage = ({ games, plays }) => {
     if (plays) {
       for (let i = 0; i < FORMATIONS.length; i++) {
         data.push(
-          plays.filter((p) => p.formation === FORMATIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length
+          plays.filter(
+            (p) => p.formation === FORMATIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason && p.play !== "Run"
+          ).length
         );
       }
     }
@@ -53,7 +55,9 @@ const HomePage = ({ games, plays }) => {
     if (plays) {
       for (let i = 0; i < POSITIONS.length; i++) {
         data.push(
-          plays.filter((p) => p.position === POSITIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length
+          plays.filter(
+            (p) => p.position === POSITIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason && p.play !== "Run"
+          ).length
         );
       }
     }
@@ -109,10 +113,10 @@ const HomePage = ({ games, plays }) => {
         <ChartCard header="Plays">
           <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
         </ChartCard>
-        <ChartCard header="Formations">
+        <ChartCard header="Formations" includeRun>
           <BarChart series={FORMATIONS} data={getFormationsTotals()} />
         </ChartCard>
-        <ChartCard header="Positions">
+        <ChartCard header="Positions" includeRun>
           <BarChart series={POSITIONS} data={getPositionsTotals()} />
         </ChartCard>
       </Grid>

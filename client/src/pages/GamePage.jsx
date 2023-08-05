@@ -21,6 +21,7 @@ const GamePage = ({ plays }) => {
   const params = useParams();
 
   const [game, setGame] = useState({});
+  const [formationIncludeRuns, setFormationIncludeRuns] = useState(false);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -51,7 +52,7 @@ const GamePage = ({ plays }) => {
 
     if (plays) {
       for (let i = 0; i < FORMATIONS.length; i++) {
-        data.push(plays.filter((p) => p.formation === FORMATIONS[i] && p.dateKey === game.date).length);
+        data.push(plays.filter((p) => p.formation === FORMATIONS[i] && p.dateKey === game.date && p.play !== "Run").length);
       }
     }
 
@@ -63,7 +64,11 @@ const GamePage = ({ plays }) => {
 
     if (plays) {
       for (let i = 0; i < POSITIONS.length; i++) {
-        data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date).length);
+        if (formationIncludeRuns) {
+          data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date).length);
+        } else {
+          data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date && p.play !== "Run").length);
+        }
       }
     }
 
@@ -103,10 +108,10 @@ const GamePage = ({ plays }) => {
         <ChartCard header="Plays">
           <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
         </ChartCard>
-        <ChartCard header="Formations">
+        <ChartCard header="Formations" includeRun onIncludeRuns={() => setFormationIncludeRuns(!formationIncludeRuns)}>
           <BarChart series={FORMATIONS} data={getFormationsTotals()} />
         </ChartCard>
-        <ChartCard header="Positions">
+        <ChartCard header="Positions" includeRun>
           <BarChart series={POSITIONS} data={getPositionsTotals()} />
         </ChartCard>
       </Grid>

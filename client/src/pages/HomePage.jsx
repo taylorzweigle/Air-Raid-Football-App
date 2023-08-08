@@ -1,5 +1,5 @@
 //Taylor Zweigle, 2023
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import Grid from "@mui/material/Grid";
@@ -20,6 +20,9 @@ import { getGamesForSeason, getRecord } from "../utility/utility";
 
 const HomePage = ({ games, plays }) => {
   const selectedSeason = useSelector((state) => state.season);
+
+  const [includeFormationRuns, setIncludeFormationRuns] = useState(false);
+  const [includePositionRuns, setIncludePositionRuns] = useState(false);
 
   const getPlaysTotals = () => {
     const data = [];
@@ -49,6 +52,20 @@ const HomePage = ({ games, plays }) => {
     return data;
   };
 
+  const getFormationsTotalsWithRuns = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < FORMATIONS.length; i++) {
+        data.push(
+          plays.filter((p) => p.formation === FORMATIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length
+        );
+      }
+    }
+
+    return data;
+  };
+
   const getPositionsTotals = () => {
     const data = [];
 
@@ -58,6 +75,20 @@ const HomePage = ({ games, plays }) => {
           plays.filter(
             (p) => p.position === POSITIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason && p.play !== "Run"
           ).length
+        );
+      }
+    }
+
+    return data;
+  };
+
+  const getPositionsTotalsWithRuns = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < POSITIONS.length; i++) {
+        data.push(
+          plays.filter((p) => p.position === POSITIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length
         );
       }
     }
@@ -113,11 +144,11 @@ const HomePage = ({ games, plays }) => {
         <ChartCard header="Plays">
           <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
         </ChartCard>
-        <ChartCard header="Formations" includeRun>
-          <BarChart series={FORMATIONS} data={getFormationsTotals()} />
+        <ChartCard header="Formations" includeRun onIncludeRuns={() => setIncludeFormationRuns(!includeFormationRuns)}>
+          <BarChart series={FORMATIONS} data={includeFormationRuns ? getFormationsTotalsWithRuns() : getFormationsTotals()} />
         </ChartCard>
-        <ChartCard header="Positions" includeRun>
-          <BarChart series={POSITIONS} data={getPositionsTotals()} />
+        <ChartCard header="Positions" includeRun onIncludeRuns={() => setIncludePositionRuns(!includePositionRuns)}>
+          <BarChart series={POSITIONS} data={includePositionRuns ? getPositionsTotalsWithRuns() : getPositionsTotals()} />
         </ChartCard>
       </Grid>
     </Grid>

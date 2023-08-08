@@ -21,7 +21,8 @@ const GamePage = ({ plays }) => {
   const params = useParams();
 
   const [game, setGame] = useState({});
-  const [formationIncludeRuns, setFormationIncludeRuns] = useState(false);
+  const [includeFormationRuns, setIncludeFormationRuns] = useState(false);
+  const [includePositionRuns, setIncludePositionRuns] = useState(false);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -59,16 +60,36 @@ const GamePage = ({ plays }) => {
     return data;
   };
 
+  const getFormationsTotalsWithRuns = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < FORMATIONS.length; i++) {
+        data.push(plays.filter((p) => p.formation === FORMATIONS[i] && p.dateKey === game.date).length);
+      }
+    }
+
+    return data;
+  };
+
   const getPositionsTotals = () => {
     const data = [];
 
     if (plays) {
       for (let i = 0; i < POSITIONS.length; i++) {
-        if (formationIncludeRuns) {
-          data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date).length);
-        } else {
-          data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date && p.play !== "Run").length);
-        }
+        data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date && p.play !== "Run").length);
+      }
+    }
+
+    return data;
+  };
+
+  const getPositionsTotalsWithRuns = () => {
+    const data = [];
+
+    if (plays) {
+      for (let i = 0; i < POSITIONS.length; i++) {
+        data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date).length);
       }
     }
 
@@ -108,11 +129,11 @@ const GamePage = ({ plays }) => {
         <ChartCard header="Plays">
           <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
         </ChartCard>
-        <ChartCard header="Formations" includeRun onIncludeRuns={() => setFormationIncludeRuns(!formationIncludeRuns)}>
-          <BarChart series={FORMATIONS} data={getFormationsTotals()} />
+        <ChartCard header="Formations" includeRun onIncludeRuns={() => setIncludeFormationRuns(!includeFormationRuns)}>
+          <BarChart series={FORMATIONS} data={includeFormationRuns ? getFormationsTotalsWithRuns() : getFormationsTotals()} />
         </ChartCard>
-        <ChartCard header="Positions" includeRun>
-          <BarChart series={POSITIONS} data={getPositionsTotals()} />
+        <ChartCard header="Positions" includeRun onIncludeRuns={() => setIncludePositionRuns(!includePositionRuns)}>
+          <BarChart series={POSITIONS} data={includePositionRuns ? getPositionsTotalsWithRuns() : getPositionsTotals()} />
         </ChartCard>
       </Grid>
     </Grid>

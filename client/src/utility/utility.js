@@ -28,6 +28,6 @@ export const convertDate = (date) => {
 
     let month = monthMap[parseInt(date.slice(0, 2))];
 
-    return `${month} ${parseInt(date.slice(3, 5))}, ${date.slice(6, 10)}`;
+    return `${month} ${parseInt(date.slice(3, 5))}`;
   }
 };

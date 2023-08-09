@@ -6,11 +6,11 @@ import Typography from "@mui/material/Typography";
 
 import SelectButton from "./buttons/SelectButton";
 
-const SelectInput = ({ label, items, direction, onSelect }) => {
+const SelectInput = ({ label, items, defaultValue, direction, onSelect }) => {
   return (
     <Stack direction={direction} alignItems={direction === "row" ? "center" : null} spacing={1}>
       <Typography variant="subtitle1">{label}</Typography>
-      <SelectButton items={items} defaultValue={items[0]} minWidth={192} onSelect={(value) => onSelect(value)} />
+      <SelectButton items={items} defaultValue={defaultValue} minWidth={192} onSelect={(value) => onSelect(value)} />
     </Stack>
   );
 };

@@ -16,8 +16,8 @@ import { images } from "../../img/index";
 const PlaybookDialog = ({ open, onClose }) => {
   const theme = useSelector((state) => state.theme);
 
-  const [selectedFormation, setSelectedFormation] = useState("ace");
-  const [selectedPlay, setSelectedPlay] = useState("run");
+  const [selectedFormation, setSelectedFormation] = useState("Ace");
+  const [selectedPlay, setSelectedPlay] = useState("Run");
 
   const handleSelectedFormation = (formation) => setSelectedFormation(formation);
   const handleSelectedPlay = (play) => setSelectedPlay(play);
@@ -38,8 +38,20 @@ const PlaybookDialog = ({ open, onClose }) => {
         <Stack direction="column">
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={headerStyle}>
             <Stack alignItems="center" direction="row" spacing={2}>
-              <SelectInput label="Formation" items={getFormations()} direction="row" onSelect={handleSelectedFormation} />
-              <SelectInput label="Play" items={getPlays()} direction="row" onSelect={handleSelectedPlay} />
+              <SelectInput
+                label="Formation"
+                items={getFormations()}
+                defaultValue={selectedFormation}
+                direction="row"
+                onSelect={handleSelectedFormation}
+              />
+              <SelectInput
+                label="Play"
+                items={getPlays()}
+                defaultValue={selectedPlay}
+                direction="row"
+                onSelect={handleSelectedPlay}
+              />
             </Stack>
           </Stack>
           <Image

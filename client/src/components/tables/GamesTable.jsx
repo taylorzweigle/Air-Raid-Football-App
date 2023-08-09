@@ -40,7 +40,6 @@ const GamesTable = ({ games, plays }) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell sx={headerCellStyle}></TableCell>
           <TableCell sx={headerCellStyle}>Opponent</TableCell>
           <TableCell sx={headerCellStyle}>Location</TableCell>
           <TableCell sx={headerCellStyle}>Date</TableCell>
@@ -52,11 +51,6 @@ const GamesTable = ({ games, plays }) => {
         {games &&
           games.map((game) => (
             <TableRow key={game._id} to={`/${game._id}`} component={RouterLink} sx={tableRowStyle} hover>
-              <TableCell sx={cellStyle}>
-                <TableTypography isWin={calculateWin(game.score, game.opponentScore)}>
-                  {calculateWin(game.score, game.opponentScore) ? "W" : "L"}
-                </TableTypography>
-              </TableCell>
               <TableCell sx={cellStyle}>
                 <TableTypography isWin={calculateWin(game.score, game.opponentScore)} isBold>
                   {game.opponent}

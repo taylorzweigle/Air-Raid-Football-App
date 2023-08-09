@@ -26,7 +26,7 @@ const PlaysTable = ({ plays }) => {
   };
 
   return (
-    <Table>
+    <Table stickyHeader>
       <TableHead>
         <TableRow>
           <TableCell sx={headerCellStyle}>Down & Distance</TableCell>

@@ -53,7 +53,7 @@ const CreateGameDialog = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog title="Create Game" open={open} onClose={handleClose} onSubmit={handleSubmit}>
+    <Dialog title="Create Game" open={open} isForm onClose={handleClose} onSubmit={handleSubmit}>
       <Stack direction="column" spacing={2}>
         <TextInput label="Opponent" type="text" value={opponent} onChange={(e) => setOpponent(e.target.value)} />
         <TextInput label="Location" type="text" value={location} onChange={(e) => setLocation(e.target.value)} />

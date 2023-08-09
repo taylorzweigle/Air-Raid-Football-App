@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 
 import Card from "../Card";
+import Dialog from "../Dialog";
 import Image from "../Image";
 import SelectInput from "../SelectInput";
 
@@ -12,7 +13,7 @@ import { FORMATIONS, PLAYS } from "../../data/foundations";
 
 import { images } from "../../img/index";
 
-const PlayPreviewCard = () => {
+const PlaybookDialog = ({ open, onClose }) => {
   const theme = useSelector((state) => state.theme);
 
   const [selectedFormation, setSelectedFormation] = useState("ace");
@@ -32,21 +33,23 @@ const PlayPreviewCard = () => {
   };
 
   return (
-    <Card>
-      <Stack direction="column">
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={headerStyle}>
-          <Stack alignItems="center" direction="row" spacing={2}>
-            <SelectInput label="Formation" items={getFormations()} direction="row" onSelect={handleSelectedFormation} />
-            <SelectInput label="Play" items={getPlays()} direction="row" onSelect={handleSelectedPlay} />
+    <Dialog title="Playbook" open={open} onClose={onClose}>
+      <Card>
+        <Stack direction="column">
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={headerStyle}>
+            <Stack alignItems="center" direction="row" spacing={2}>
+              <SelectInput label="Formation" items={getFormations()} direction="row" onSelect={handleSelectedFormation} />
+              <SelectInput label="Play" items={getPlays()} direction="row" onSelect={handleSelectedPlay} />
+            </Stack>
           </Stack>
+          <Image
+            image={images[selectedFormation.toLowerCase()][theme === "light" ? "light" : "dark"][getSelectedPlay(selectedPlay)]}
+            imageAlt={`${selectedFormation.toLowerCase()}${getSelectedPlay(selectedPlay)}`}
+          />
         </Stack>
-        <Image
-          image={images[selectedFormation.toLowerCase()][theme === "light" ? "light" : "dark"][getSelectedPlay(selectedPlay)]}
-          imageAlt={`${selectedFormation.toLowerCase()}${getSelectedPlay(selectedPlay)}`}
-        />
-      </Stack>
-    </Card>
+      </Card>
+    </Dialog>
   );
 };
 
-export default PlayPreviewCard;
+export default PlaybookDialog;

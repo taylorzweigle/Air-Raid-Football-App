@@ -95,7 +95,7 @@ const AddPlayDialog = ({ dateKey, open, onClose }) => {
   };
 
   return (
-    <Dialog title="Add Play" open={open} fullWidth={true} onClose={handleClose} onSubmit={handleSubmit}>
+    <Dialog title="Add Play" open={open} fullWidth={true} isForm onClose={handleClose} onSubmit={handleSubmit}>
       <Stack direction="column" spacing={2}>
         <Stack direction="column" spacing={0}>
           <Typography variant="subtitle1">Down</Typography>

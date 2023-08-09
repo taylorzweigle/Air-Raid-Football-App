@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const Dialog = ({ title, children, open, fullWidth, onClose, onSubmit }) => {
+const Dialog = ({ title, children, open, fullWidth, isForm, onClose, onSubmit }) => {
   const handleSubmit = (e) => {
     onSubmit(e);
     onClose();
@@ -20,11 +20,13 @@ const Dialog = ({ title, children, open, fullWidth, onClose, onSubmit }) => {
         <DialogContent>{children}</DialogContent>
         <DialogActions>
           <Button variant="text" onClick={onClose}>
-            Cancel
+            {isForm ? "Cancel" : "Close"}
           </Button>
-          <Button variant="contained" type="submit">
-            Create
-          </Button>
+          {isForm && (
+            <Button variant="contained" type="submit">
+              Create
+            </Button>
+          )}
         </DialogActions>
       </form>
     </MuiDialog>

@@ -43,21 +43,6 @@ const App = () => {
     fetchPlays();
   }, []);
 
-  /*const handleDelete = async (id) => {
-    const response = await fetch("/api/games/" + id, {
-      method: "DELETE",
-    });
-
-    const json = await response.json();
-
-    if (!response.ok) {
-      setError(json.error);
-    }
-    if (response.ok) {
-      setError(null);
-    }
-  };*/
-
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <CssBaseline />

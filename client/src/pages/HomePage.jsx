@@ -10,7 +10,6 @@ import ChartCard from "../components/cards/ChartCard";
 import DetailsCard from "../components/cards/DetailsCard";
 import GamesCard from "../components/cards/GamesCard";
 import SeasonHeaderCard from "../components/cards/SeasonHeaderCard";
-import PlayPreviewCard from "../components/cards/PlayPreviewCard";
 
 import { FORMATIONS, PLAYS, POSITIONS } from "../data/foundations";
 
@@ -138,7 +137,6 @@ const HomePage = ({ games, plays }) => {
       </Grid>
       <Grid item xs={12} md={5}>
         <GamesCard games={games} plays={plays} />
-        <PlayPreviewCard />
       </Grid>
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">

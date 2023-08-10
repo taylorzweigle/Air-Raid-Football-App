@@ -5,12 +5,12 @@ import HighchartsReact from "highcharts-react-official";
 
 import { useTheme } from "@mui/material/styles";
 
-const BarChart = ({ series, data }) => {
+const LineChart = ({ series, data }) => {
   const theme = useTheme();
 
   const options = {
     chart: {
-      type: "column",
+      type: "line",
       backgroundColor: "rgba(0, 0, 0, 0.0)",
       height: "215px",
     },
@@ -48,18 +48,23 @@ const BarChart = ({ series, data }) => {
       },
     },
     plotOptions: {
-      column: {
+      line: {
         showInLegend: false,
-        cursor: "pointer",
+        dataLabels: {
+          enabled: true,
+          style: {
+            color: theme.palette.text.primary,
+          },
+        },
+        enableMouseTracking: false,
       },
     },
     tooltip: {
-      pointFormat: "<b>{point.y:.0f}</b>",
+      enabled: false,
     },
     series: [
       {
         color: theme.palette.primary.main,
-        pointWidth: 20,
         data: data,
       },
     ],
@@ -68,4 +73,4 @@ const BarChart = ({ series, data }) => {
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 
-export default BarChart;
+export default LineChart;

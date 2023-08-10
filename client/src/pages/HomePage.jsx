@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 
 import Grid from "@mui/material/Grid";
 
-import BarChart from "../components/BarChart";
+import BarChart from "../components/charts/BarChart";
+import LineChart from "../components/charts/LineChart";
 
 import ChartCard from "../components/cards/ChartCard";
 import DetailsCard from "../components/cards/DetailsCard";
@@ -119,6 +120,16 @@ const HomePage = ({ games, plays }) => {
     }
   };
 
+  const getTotalPlays = (dateKey) => {
+    let data = 0;
+
+    if (plays) {
+      data = plays.filter((p) => p.dateKey === dateKey).length;
+    }
+
+    return data;
+  };
+
   const tempDetails = [
     { label: "Record", value: getRecord(getGamesForSeason(games, selectedSeason)) },
     { label: "Total Plays", value: getSeasonTotalPlays() },
@@ -137,6 +148,12 @@ const HomePage = ({ games, plays }) => {
       </Grid>
       <Grid item xs={12} md={5}>
         <GamesCard games={games} plays={plays} />
+        <ChartCard header="Total Plays per Game">
+          <LineChart
+            series={games ? getGamesForSeason(games, selectedSeason).map((game) => game.opponent) : []}
+            data={games ? getGamesForSeason(games, selectedSeason).map((game) => getTotalPlays(game.date)) : []}
+          />
+        </ChartCard>
       </Grid>
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">

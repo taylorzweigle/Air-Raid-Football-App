@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 
-import BarChart from "../components/BarChart";
+import BarChart from "../components/charts/BarChart";
 
 import ChartCard from "../components/cards/ChartCard";
 import DetailsCard from "../components/cards/DetailsCard";

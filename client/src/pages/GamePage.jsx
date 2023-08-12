@@ -15,7 +15,16 @@ import { FORMATIONS, PLAYS, POSITIONS } from "../data/foundations";
 
 import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
-import { calculateWin, convertDate } from "../utility/utility";
+import {
+  calculateWin,
+  convertDate,
+  getGameFormationsTotals,
+  getGameFormationsTotalsWithRuns,
+  getGamePlaysTotals,
+  getGamePositionsTotals,
+  getGamePositionsTotalsWithRuns,
+  getGameTotalPlays,
+} from "../utility/utility";
 
 const GamePage = ({ plays }) => {
   const params = useParams();
@@ -36,82 +45,12 @@ const GamePage = ({ plays }) => {
     fetchGame();
   }, [params.id]);
 
-  const getPlaysTotals = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < PLAYS.length; i++) {
-        data.push(plays.filter((p) => p.play === PLAYS[i] && p.dateKey === game.date).length);
-      }
-    }
-
-    return data;
-  };
-
-  const getFormationsTotals = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < FORMATIONS.length; i++) {
-        data.push(plays.filter((p) => p.formation === FORMATIONS[i] && p.dateKey === game.date && p.play !== "Run").length);
-      }
-    }
-
-    return data;
-  };
-
-  const getFormationsTotalsWithRuns = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < FORMATIONS.length; i++) {
-        data.push(plays.filter((p) => p.formation === FORMATIONS[i] && p.dateKey === game.date).length);
-      }
-    }
-
-    return data;
-  };
-
-  const getPositionsTotals = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < POSITIONS.length; i++) {
-        data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date && p.play !== "Run").length);
-      }
-    }
-
-    return data;
-  };
-
-  const getPositionsTotalsWithRuns = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < POSITIONS.length; i++) {
-        data.push(plays.filter((p) => p.position === POSITIONS[i] && p.dateKey === game.date).length);
-      }
-    }
-
-    return data;
-  };
-
-  const getTotalPlays = () => {
-    const data = [];
-
-    if (plays) {
-      data.push(plays.filter((p) => p.dateKey === game.date).length);
-    }
-
-    return data;
-  };
-
   const details = [
     { label: "Date", value: convertDate(game.date) },
     { label: "Location", value: game.location },
     { label: "Result", value: calculateWin(game.score, game.opponentScore) ? "W" : "L" },
     { label: "Score", value: `${game.score}-${game.opponentScore}` },
-    { label: "Plays", value: getTotalPlays() },
+    { label: "Plays", value: getGameTotalPlays(plays, game.date) },
   ];
 
   return (
@@ -127,13 +66,25 @@ const GamePage = ({ plays }) => {
       </Grid>
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">
-          <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
+          <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getGamePlaysTotals(plays, game.date)} />
         </ChartCard>
         <ChartCard header="Formations" includeRun onIncludeRuns={() => setIncludeFormationRuns(!includeFormationRuns)}>
-          <BarChart series={FORMATIONS} data={includeFormationRuns ? getFormationsTotalsWithRuns() : getFormationsTotals()} />
+          <BarChart
+            series={FORMATIONS}
+            data={
+              includeFormationRuns
+                ? getGameFormationsTotalsWithRuns(plays, game.date)
+                : getGameFormationsTotals(plays, game.date)
+            }
+          />
         </ChartCard>
         <ChartCard header="Positions" includeRun onIncludeRuns={() => setIncludePositionRuns(!includePositionRuns)}>
-          <BarChart series={POSITIONS} data={includePositionRuns ? getPositionsTotalsWithRuns() : getPositionsTotals()} />
+          <BarChart
+            series={POSITIONS}
+            data={
+              includePositionRuns ? getGamePositionsTotalsWithRuns(plays, game.date) : getGamePositionsTotals(plays, game.date)
+            }
+          />
         </ChartCard>
       </Grid>
     </Grid>

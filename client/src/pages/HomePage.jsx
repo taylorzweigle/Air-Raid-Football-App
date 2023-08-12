@@ -16,7 +16,21 @@ import { FORMATIONS, PLAYS, POSITIONS } from "../data/foundations";
 
 import { mediaQueryDisplayNoneStyle } from "../styles/style";
 
-import { getGamesForSeason, getRecord } from "../utility/utility";
+import {
+  abbreviateOpponent,
+  getRecord,
+  getSeasonFirstDowns,
+  getSeasonFormationsTotals,
+  getSeasonFormationsTotalsWithRuns,
+  getSeasonGames,
+  getSeasonPlaysPerGame,
+  getSeasonPlaysTotals,
+  getSeasonPositionsTotals,
+  getSeasonPositionsTotalsWithRuns,
+  getSeasonTotalPlays,
+  getSeasonTotalPlaysPerOpponent,
+  getSeasonTouchdowns,
+} from "../utility/utility";
 
 const HomePage = ({ games, plays }) => {
   const selectedSeason = useSelector((state) => state.season);
@@ -24,118 +38,12 @@ const HomePage = ({ games, plays }) => {
   const [includeFormationRuns, setIncludeFormationRuns] = useState(false);
   const [includePositionRuns, setIncludePositionRuns] = useState(false);
 
-  const getPlaysTotals = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < PLAYS.length; i++) {
-        data.push(plays.filter((p) => p.play === PLAYS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length);
-      }
-    }
-
-    return data;
-  };
-
-  const getFormationsTotals = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < FORMATIONS.length; i++) {
-        data.push(
-          plays.filter(
-            (p) => p.formation === FORMATIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason && p.play !== "Run"
-          ).length
-        );
-      }
-    }
-
-    return data;
-  };
-
-  const getFormationsTotalsWithRuns = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < FORMATIONS.length; i++) {
-        data.push(
-          plays.filter((p) => p.formation === FORMATIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length
-        );
-      }
-    }
-
-    return data;
-  };
-
-  const getPositionsTotals = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < POSITIONS.length; i++) {
-        data.push(
-          plays.filter(
-            (p) => p.position === POSITIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason && p.play !== "Run"
-          ).length
-        );
-      }
-    }
-
-    return data;
-  };
-
-  const getPositionsTotalsWithRuns = () => {
-    const data = [];
-
-    if (plays) {
-      for (let i = 0; i < POSITIONS.length; i++) {
-        data.push(
-          plays.filter((p) => p.position === POSITIONS[i] && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length
-        );
-      }
-    }
-
-    return data;
-  };
-
-  const getSeasonTotalPlays = () => {
-    if (plays) {
-      return plays.filter((p) => parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length;
-    }
-  };
-
-  const getSeasonPlaysPerGame = () => {
-    if (games) {
-      return Math.round(getSeasonTotalPlays() / games.filter((g) => parseInt(g.date.slice(6, 10)) === selectedSeason).length);
-    }
-  };
-
-  const getSeasonFirstDowns = () => {
-    if (plays) {
-      return plays.filter((p) => p.firstDown === true && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length;
-    }
-  };
-
-  const getSeasonTouchdowns = () => {
-    if (plays) {
-      return plays.filter((p) => p.touchdown === true && parseInt(p.dateKey.slice(6, 10)) === selectedSeason).length;
-    }
-  };
-
-  const getTotalPlays = (dateKey) => {
-    let data = 0;
-
-    if (plays) {
-      data = plays.filter((p) => p.dateKey === dateKey).length;
-    }
-
-    return data;
-  };
-
   const tempDetails = [
-    { label: "Record", value: getRecord(getGamesForSeason(games, selectedSeason)) },
-    { label: "Total Plays", value: getSeasonTotalPlays() },
-    { label: "Plays per Game", value: getSeasonPlaysPerGame() },
-    { label: "First Downs", value: getSeasonFirstDowns() },
-    { label: "Touchdowns", value: getSeasonTouchdowns() },
+    { label: "Record", value: getRecord(getSeasonGames(games, selectedSeason)) },
+    { label: "Total Plays", value: getSeasonTotalPlays(plays, selectedSeason) },
+    { label: "Plays per Game", value: getSeasonPlaysPerGame(games, plays, selectedSeason) },
+    { label: "First Downs", value: getSeasonFirstDowns(plays, selectedSeason) },
+    { label: "Touchdowns", value: getSeasonTouchdowns(plays, selectedSeason) },
   ];
 
   return (
@@ -150,20 +58,39 @@ const HomePage = ({ games, plays }) => {
         <GamesCard games={games} plays={plays} />
         <ChartCard header="Total Plays per Game">
           <LineChart
-            series={games ? getGamesForSeason(games, selectedSeason).map((game) => game.opponent) : []}
-            data={games ? getGamesForSeason(games, selectedSeason).map((game) => getTotalPlays(game.date)) : []}
+            series={games ? getSeasonGames(games, selectedSeason).map((game) => abbreviateOpponent(game.opponent)) : []}
+            data={
+              games ? getSeasonGames(games, selectedSeason).map((game) => getSeasonTotalPlaysPerOpponent(plays, game.date)) : []
+            }
           />
         </ChartCard>
       </Grid>
       <Grid item xs={12} md={7}>
         <ChartCard header="Plays">
-          <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getPlaysTotals()} />
+          <BarChart
+            series={PLAYS.map((play) => play.replaceAll("/", " / "))}
+            data={getSeasonPlaysTotals(plays, selectedSeason)}
+          />
         </ChartCard>
         <ChartCard header="Formations" includeRun onIncludeRuns={() => setIncludeFormationRuns(!includeFormationRuns)}>
-          <BarChart series={FORMATIONS} data={includeFormationRuns ? getFormationsTotalsWithRuns() : getFormationsTotals()} />
+          <BarChart
+            series={FORMATIONS}
+            data={
+              includeFormationRuns
+                ? getSeasonFormationsTotalsWithRuns(plays, selectedSeason)
+                : getSeasonFormationsTotals(plays, selectedSeason)
+            }
+          />
         </ChartCard>
         <ChartCard header="Positions" includeRun onIncludeRuns={() => setIncludePositionRuns(!includePositionRuns)}>
-          <BarChart series={POSITIONS} data={includePositionRuns ? getPositionsTotalsWithRuns() : getPositionsTotals()} />
+          <BarChart
+            series={POSITIONS}
+            data={
+              includePositionRuns
+                ? getSeasonPositionsTotalsWithRuns(plays, selectedSeason)
+                : getSeasonPositionsTotals(plays, selectedSeason)
+            }
+          />
         </ChartCard>
       </Grid>
     </Grid>

@@ -25,6 +25,7 @@ import {
   getSeasonGames,
   getSeasonPlaysPerGame,
   getSeasonPlaysTotals,
+  getSeasonPlaysTotalsWithRuns,
   getSeasonPositionsTotals,
   getSeasonPositionsTotalsWithRuns,
   getSeasonTotalPlays,
@@ -35,6 +36,7 @@ import {
 const HomePage = ({ games, plays }) => {
   const selectedSeason = useSelector((state) => state.season);
 
+  const [includePlaysRuns, setIncludePlaysRuns] = useState(false);
   const [includeFormationRuns, setIncludeFormationRuns] = useState(false);
   const [includePositionRuns, setIncludePositionRuns] = useState(false);
 
@@ -66,10 +68,14 @@ const HomePage = ({ games, plays }) => {
         </ChartCard>
       </Grid>
       <Grid item xs={12} md={7}>
-        <ChartCard header="Plays">
+        <ChartCard header="Plays" includeRun onIncludeRuns={() => setIncludePlaysRuns(!includePlaysRuns)}>
           <BarChart
             series={PLAYS.map((play) => play.replaceAll("/", " / "))}
-            data={getSeasonPlaysTotals(plays, selectedSeason)}
+            data={
+              includePlaysRuns
+                ? getSeasonPlaysTotalsWithRuns(plays, selectedSeason)
+                : getSeasonPlaysTotals(plays, selectedSeason)
+            }
           />
         </ChartCard>
         <ChartCard header="Formations" includeRun onIncludeRuns={() => setIncludeFormationRuns(!includeFormationRuns)}>

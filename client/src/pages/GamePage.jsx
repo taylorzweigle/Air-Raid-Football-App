@@ -21,6 +21,7 @@ import {
   getGameFormationsTotals,
   getGameFormationsTotalsWithRuns,
   getGamePlaysTotals,
+  getGamePlaysTotalsWithRuns,
   getGamePositionsTotals,
   getGamePositionsTotalsWithRuns,
   getGameTotalPlays,
@@ -30,6 +31,7 @@ const GamePage = ({ plays }) => {
   const params = useParams();
 
   const [game, setGame] = useState({});
+  const [includePlaysRuns, setIncludePlaysRuns] = useState(false);
   const [includeFormationRuns, setIncludeFormationRuns] = useState(false);
   const [includePositionRuns, setIncludePositionRuns] = useState(false);
 
@@ -65,8 +67,11 @@ const GamePage = ({ plays }) => {
         <PlaysCard plays={plays} dateKey={game.date} />
       </Grid>
       <Grid item xs={12} md={7}>
-        <ChartCard header="Plays">
-          <BarChart series={PLAYS.map((play) => play.replaceAll("/", " / "))} data={getGamePlaysTotals(plays, game.date)} />
+        <ChartCard header="Plays" includeRun onIncludeRuns={() => setIncludePlaysRuns(!includePlaysRuns)}>
+          <BarChart
+            series={PLAYS.map((play) => play.replaceAll("/", " / "))}
+            data={includePlaysRuns ? getGamePlaysTotalsWithRuns(plays, game.date) : getGamePlaysTotals(plays, game.date)}
+          />
         </ChartCard>
         <ChartCard header="Formations" includeRun onIncludeRuns={() => setIncludeFormationRuns(!includeFormationRuns)}>
           <BarChart

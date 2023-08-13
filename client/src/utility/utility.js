@@ -52,6 +52,18 @@ export const getSeasonPlaysTotals = (plays, season) => {
 
   if (plays) {
     for (let i = 0; i < PLAYS.length; i++) {
+      data.push(plays.filter((p) => _isPlay(p.play, i) && _isInSeason(p.dateKey, season) && _isRunPlay(p.play)).length);
+    }
+  }
+
+  return data;
+};
+
+export const getSeasonPlaysTotalsWithRuns = (plays, season) => {
+  const data = [];
+
+  if (plays) {
+    for (let i = 0; i < PLAYS.length; i++) {
       data.push(plays.filter((p) => _isPlay(p.play, i) && _isInSeason(p.dateKey, season)).length);
     }
   }
@@ -133,6 +145,18 @@ export const getGameTotalPlays = (plays, date) => {
 };
 
 export const getGamePlaysTotals = (plays, date) => {
+  const data = [];
+
+  if (plays) {
+    for (let i = 0; i < PLAYS.length; i++) {
+      data.push(plays.filter((p) => _isPlay(p.play, i) && _isInGame(p.dateKey, date) && _isRunPlay(p.play)).length);
+    }
+  }
+
+  return data;
+};
+
+export const getGamePlaysTotalsWithRuns = (plays, date) => {
   const data = [];
 
   if (plays) {

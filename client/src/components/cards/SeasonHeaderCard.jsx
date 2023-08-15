@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import HeaderCard from "./HeaderCard";
 import SelectButton from "../buttons/SelectButton";
 
+import AnalyticsDialog from "../dialogs/AnalyticsDialog";
 import CreateGameDialog from "../dialogs/CreateGameDialog";
 
 import { season } from "../../actions";
@@ -18,10 +19,13 @@ const SeasonHeaderCard = ({ details }) => {
 
   const selectedSeason = useSelector((state) => state.season);
 
-  const [open, setOpen] = useState(false);
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  const [openAnalyticsDialog, setOpenAnalyticsDialog] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenCreateDialog = () => setOpenCreateDialog(true);
+  const handleCloseCreateDialog = () => setOpenCreateDialog(false);
+  const handleOpenAnalyticsDialog = () => setOpenAnalyticsDialog(true);
+  const handleCloseAnalyticsDialog = () => setOpenAnalyticsDialog(false);
 
   const handleSeasonSelect = (s) => dispatch(season(s));
 
@@ -38,13 +42,19 @@ const SeasonHeaderCard = ({ details }) => {
         }
         title={"Football Season"}
         details={details}
-        actionButton={
-          <Button variant="contained" onClick={() => handleOpen()}>
-            Create Game
-          </Button>
+        actions={
+          <>
+            <Button variant="outlined" color="secondary" onClick={() => handleOpenAnalyticsDialog()}>
+              Analytics
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => handleOpenCreateDialog()}>
+              Create Game
+            </Button>
+          </>
         }
       />
-      <CreateGameDialog open={open} onClose={handleClose} />
+      <CreateGameDialog open={openCreateDialog} onClose={handleCloseCreateDialog} />
+      <AnalyticsDialog open={openAnalyticsDialog} onClose={handleCloseAnalyticsDialog} />
     </>
   );
 };

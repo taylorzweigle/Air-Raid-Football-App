@@ -27,8 +27,8 @@ const GameHeaderCard = ({ title, details, dateKey }) => {
         }
         title={title}
         details={details}
-        actionButton={
-          <Button variant="contained" onClick={() => handleOpen()}>
+        actions={
+          <Button variant="contained" color="primary" onClick={() => handleOpen()}>
             Add Play
           </Button>
         }

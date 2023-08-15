@@ -1,5 +1,5 @@
 //Taylor Zweigle, 2023
-export const SEASONS = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
+export const SEASONS = [2017, 2018, 2019];
 
 export const DISTANCES = ["10", "Long", "Short", "Inches", "Goal-to-Go"];
 

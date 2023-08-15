@@ -233,7 +233,7 @@ export const abbreviateOpponent = (opponent) => {
   }
 
   if (opponent.includes("State")) {
-    abbreviation = abbreviation + " St";
+    abbreviation = abbreviation + " State";
   }
 
   return abbreviation;

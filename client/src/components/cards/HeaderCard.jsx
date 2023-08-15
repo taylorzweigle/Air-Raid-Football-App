@@ -19,7 +19,7 @@ import { theme } from "../../actions";
 
 import { mediaQueryDisplayFlexStyle } from "../../styles/style";
 
-const HeaderCard = ({ navigationButton, title, details, actionButton }) => {
+const HeaderCard = ({ navigationButton, title, details, actions }) => {
   const dispatch = useDispatch();
 
   const [playbookOpen, setPlaybookOpen] = useState(false);
@@ -48,7 +48,9 @@ const HeaderCard = ({ navigationButton, title, details, actionButton }) => {
               <MenuBookIcon />
             </IconButton>
             <ThemeButton onToggleClick={() => dispatch(theme())} />
-            {actionButton}
+            <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
+              {actions}
+            </Stack>
           </Stack>
         </Stack>
       </Card>

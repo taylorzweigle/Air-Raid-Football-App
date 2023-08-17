@@ -17,6 +17,33 @@ const _isPlay = (play, index) => play === PLAYS[index];
 const _isPosition = (position, index) => position === POSITIONS[index];
 
 /***************************************************/
+/*****************FILTER TOTAL DATA****************/
+/***************************************************/
+export const getFormationPlayTotals = (plays, play) => {
+  const data = [];
+
+  if (plays) {
+    for (let i = 0; i < FORMATIONS.length; i++) {
+      data.push(plays.filter((p) => _isFormation(p.formation, i) && p.play === play).length);
+    }
+  }
+
+  return data;
+};
+
+export const getPositionPlayTotals = (plays, play) => {
+  const data = [];
+
+  if (plays) {
+    for (let i = 0; i < POSITIONS.length; i++) {
+      data.push(plays.filter((p) => _isPosition(p.position, i) && p.play === play).length);
+    }
+  }
+
+  return data;
+};
+
+/***************************************************/
 /*****************FILTER SEASON DATA****************/
 /***************************************************/
 export const getSeasonGames = (games, season) => {

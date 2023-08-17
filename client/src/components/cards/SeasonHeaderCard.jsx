@@ -14,7 +14,7 @@ import { season } from "../../actions";
 
 import { SEASONS } from "../../data/foundations";
 
-const SeasonHeaderCard = ({ details }) => {
+const SeasonHeaderCard = ({ details, plays }) => {
   const dispatch = useDispatch();
 
   const selectedSeason = useSelector((state) => state.season);
@@ -54,7 +54,7 @@ const SeasonHeaderCard = ({ details }) => {
         }
       />
       <CreateGameDialog open={openCreateDialog} onClose={handleCloseCreateDialog} />
-      <AnalyticsDialog open={openAnalyticsDialog} onClose={handleCloseAnalyticsDialog} />
+      <AnalyticsDialog open={openAnalyticsDialog} plays={plays} onClose={handleCloseAnalyticsDialog} />
     </>
   );
 };

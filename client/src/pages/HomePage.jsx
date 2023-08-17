@@ -40,7 +40,7 @@ const HomePage = ({ games, plays }) => {
   const [includeFormationRuns, setIncludeFormationRuns] = useState(false);
   const [includePositionRuns, setIncludePositionRuns] = useState(false);
 
-  const tempDetails = [
+  const details = [
     { label: "Record", value: getRecord(getSeasonGames(games, selectedSeason)) },
     { label: "Total Plays", value: getSeasonTotalPlays(plays, selectedSeason) },
     { label: "Plays per Game", value: getSeasonPlaysPerGame(games, plays, selectedSeason) },
@@ -51,10 +51,10 @@ const HomePage = ({ games, plays }) => {
   return (
     <Grid container>
       <Grid item xs={12} md={12}>
-        <SeasonHeaderCard details={tempDetails} />
+        <SeasonHeaderCard details={details} plays={plays} />
       </Grid>
       <Grid item xs={12} md={12} sx={mediaQueryDisplayNoneStyle}>
-        <DetailsCard details={tempDetails} />
+        <DetailsCard details={details} />
       </Grid>
       <Grid item xs={12} md={5}>
         <GamesCard games={games} plays={plays} />

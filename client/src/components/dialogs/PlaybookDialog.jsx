@@ -33,7 +33,7 @@ const PlaybookDialog = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog title="Playbook" open={open} onClose={onClose}>
+    <Dialog title="Playbook" open={open} maxWidth="md" fullWidth onClose={onClose}>
       <Card>
         <Stack direction="column">
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={headerStyle}>

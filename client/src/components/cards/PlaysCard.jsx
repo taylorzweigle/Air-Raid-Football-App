@@ -12,7 +12,7 @@ const PlaysCard = ({ plays, dateKey }) => {
   }
 
   return (
-    <Card isScrollable>
+    <Card height={780} isScrollable>
       <PlaysTable plays={filteredData} />
     </Card>
   );

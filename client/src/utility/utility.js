@@ -16,27 +16,60 @@ const _isPlay = (play, index) => play === PLAYS[index];
 
 const _isPosition = (position, index) => position === POSITIONS[index];
 
+const _isFirstDown = (play) => play === true;
+
+const _isTouchdown = (play) => play === true;
+
+const _isInterception = (play) => play === true;
+
 /***************************************************/
 /*****************FILTER TOTAL DATA****************/
 /***************************************************/
-export const getFormationPlayTotals = (plays, play) => {
+export const getFormationPlayTotals = (plays, season, play) => {
   const data = [];
 
   if (plays) {
     for (let i = 0; i < FORMATIONS.length; i++) {
-      data.push(plays.filter((p) => _isFormation(p.formation, i) && p.play === play).length);
+      if (season !== "All") {
+        data.push(
+          plays.filter((p) => _isFormation(p.formation, i) && _isInSeason(p.dateKey, season) && p.play === play).length
+        );
+      } else {
+        data.push(plays.filter((p) => _isFormation(p.formation, i) && p.play === play).length);
+      }
     }
   }
 
   return data;
 };
 
-export const getPositionPlayTotals = (plays, play) => {
+export const getPositionPlayTotals = (plays, season, play) => {
   const data = [];
 
   if (plays) {
     for (let i = 0; i < POSITIONS.length; i++) {
-      data.push(plays.filter((p) => _isPosition(p.position, i) && p.play === play).length);
+      if (season !== "All") {
+        data.push(plays.filter((p) => _isPosition(p.position, i) && _isInSeason(p.dateKey, season) && p.play === play).length);
+      } else {
+        data.push(plays.filter((p) => _isPosition(p.position, i) && p.play === play).length);
+      }
+    }
+  }
+
+  return data;
+};
+
+export const getPlayTotals = (plays) => {
+  const data = [];
+
+  if (plays) {
+    for (let i = 0; i < PLAYS.length; i++) {
+      data.push({
+        play: PLAYS[i],
+        firstDowns: plays.filter((p) => _isFirstDown(p.firstDown) && _isPlay(p.play, i)).length,
+        touchdowns: plays.filter((p) => _isTouchdown(p.touchdown) && _isPlay(p.play, i)).length,
+        interceptions: plays.filter((p) => _isInterception(p.interception) && _isPlay(p.play, i)).length,
+      });
     }
   }
 
@@ -58,7 +91,7 @@ export const getSeasonTotalPlays = (plays, season) => {
 
 export const getSeasonFirstDowns = (plays, season) => {
   if (plays) {
-    return plays.filter((p) => p.firstDown === true && _isInSeason(p.dateKey, season)).length;
+    return plays.filter((p) => _isFirstDown(p.firstDown) && _isInSeason(p.dateKey, season)).length;
   }
 };
 

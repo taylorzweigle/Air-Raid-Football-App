@@ -3,9 +3,9 @@ import React from "react";
 
 import { Card as MuiCard } from "@mui/material";
 
-const Card = ({ children, padding, isScrollable }) => {
+const Card = ({ children, padding, height, isScrollable }) => {
   const cardStyle = {
-    height: isScrollable ? "780px" : "max-content",
+    height: isScrollable ? height : "max-content",
     padding: padding ? "8px" : "0px",
     borderWidth: "1px",
     borderStyle: "solid",

@@ -9,7 +9,7 @@ import TableRow from "@mui/material/TableRow";
 
 import TableTypography from "../TableTypography";
 
-const TotalsTable = () => {
+const TotalsTable = ({ plays }) => {
   const headerCellStyle = {
     padding: "8px 16px",
     backgroundColor: "background.border",
@@ -28,18 +28,29 @@ const TotalsTable = () => {
       <TableHead>
         <TableRow>
           <TableCell sx={headerCellStyle}>Play</TableCell>
-          <TableCell sx={headerCellStyle}>Total</TableCell>
+          <TableCell sx={headerCellStyle}>First Downs</TableCell>
+          <TableCell sx={headerCellStyle}>Touchdowns</TableCell>
+          <TableCell sx={headerCellStyle}>Interceptions</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
-        <TableRow sx={tableRowStyle}>
-          <TableCell sx={cellStyle}>
-            <TableTypography>Play</TableTypography>
-          </TableCell>
-          <TableCell sx={cellStyle}>
-            <TableTypography>Total</TableTypography>
-          </TableCell>
-        </TableRow>
+        {plays &&
+          plays.map((play) => (
+            <TableRow key={play.play} sx={tableRowStyle}>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.play}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.firstDowns}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.touchdowns}</TableTypography>
+              </TableCell>
+              <TableCell sx={cellStyle}>
+                <TableTypography>{play.interceptions}</TableTypography>
+              </TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   );

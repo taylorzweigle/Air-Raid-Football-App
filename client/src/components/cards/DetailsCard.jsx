@@ -3,8 +3,9 @@ import React from "react";
 
 import Stack from "@mui/material/Stack";
 
-import Card from "../Card";
-import ReadOnlyData from "../ReadOnlyData";
+import Card from "./Card";
+
+import ReadOnlyData from "../typography/ReadOnlyData";
 
 const DetailsCard = ({ details }) => {
   return (

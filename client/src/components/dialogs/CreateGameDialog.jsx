@@ -3,8 +3,9 @@ import React, { useState } from "react";
 
 import Stack from "@mui/material/Stack";
 
-import Dialog from "../Dialog";
-import TextInput from "../TextInput";
+import Dialog from "./Dialog";
+
+import TextInput from "../textInputs/TextInput";
 
 const CreateGameDialog = ({ open, onClose }) => {
   const [opponent, setOpponent] = useState("");

@@ -8,8 +8,9 @@ import Typography from "@mui/material/Typography";
 
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
-import Card from "../Card";
-import ReadOnlyData from "../ReadOnlyData";
+import Card from "./Card";
+
+import ReadOnlyData from "../typography/ReadOnlyData";
 
 import ThemeButton from "../buttons/ThemeButton";
 

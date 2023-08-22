@@ -2,12 +2,17 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 
-import Card from "../Card";
-import Dialog from "../Dialog";
-import Image from "../Image";
-import SelectInput from "../SelectInput";
+import Dialog from "./Dialog";
+
+import Image from "../images/Image";
+
+import SelectButton from "../buttons/SelectButton";
+
+import Card from "../cards/Card";
 
 import { FORMATIONS, PLAYS } from "../../data/foundations";
 
@@ -27,33 +32,27 @@ const PlaybookDialog = ({ open, onClose }) => {
   const getFormations = () => FORMATIONS.slice(0, FORMATIONS.length - 1);
   const getPlays = () => PLAYS.slice(0, PLAYS.length - 1);
 
-  const headerStyle = {
-    padding: "8px 16px",
-    backgroundColor: "background.border",
-  };
-
   return (
     <Dialog title="Playbook" open={open} maxWidth="md" fullWidth onClose={onClose}>
       <Card>
         <Stack direction="column">
-          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={headerStyle}>
-            <Stack alignItems="center" direction="row" spacing={2}>
-              <SelectInput
-                label="Formation"
-                items={getFormations()}
-                defaultValue={selectedFormation}
-                direction="row"
-                onSelect={handleSelectedFormation}
-              />
-              <SelectInput
-                label="Play"
-                items={getPlays()}
-                defaultValue={selectedPlay}
-                direction="row"
-                onSelect={handleSelectedPlay}
-              />
-            </Stack>
-          </Stack>
+          <Box>
+            <SelectButton
+              minWidth={128}
+              items={getFormations()}
+              defaultValue={selectedFormation}
+              direction="row"
+              onSelect={handleSelectedFormation}
+            />
+            <SelectButton
+              minWidth={256}
+              items={getPlays()}
+              defaultValue={selectedPlay}
+              direction="row"
+              onSelect={handleSelectedPlay}
+            />
+          </Box>
+          <Divider />
           <Image
             image={images[selectedFormation.toLowerCase()][theme === "light" ? "light" : "dark"][getSelectedPlay(selectedPlay)]}
             imageAlt={`${selectedFormation.toLowerCase()}${getSelectedPlay(selectedPlay)}`}

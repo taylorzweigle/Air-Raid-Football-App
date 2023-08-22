@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 
-import Card from "../Card";
+import Card from "./Card";
 
 const ChartCard = ({ header, includeRun, onIncludeRuns, children }) => {
   return (

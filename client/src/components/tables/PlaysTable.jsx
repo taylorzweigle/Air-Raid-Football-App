@@ -1,8 +1,6 @@
 //Taylor Zweigle, 2023
 import React, { useState } from "react";
 
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Table from "@mui/material/Table";
@@ -13,7 +11,9 @@ import TableRow from "@mui/material/TableRow";
 
 import CheckIcon from "@mui/icons-material/Check";
 
-import TableTypography from "../TableTypography";
+import Alert from "../alerts/Alert";
+
+import TableTypography from "../typography/TableTypography";
 
 const PlaysTable = ({ plays }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -59,7 +59,7 @@ const PlaysTable = ({ plays }) => {
   };
 
   const handleSuccessClose = () => setSuccessIsOpen(false);
-  const handleErrorClose = () => setFailIsOpen(false);
+  const handleFailClose = () => setFailIsOpen(false);
 
   return (
     <>
@@ -111,12 +111,8 @@ const PlaysTable = ({ plays }) => {
             ))}
         </TableBody>
       </Table>
-      <Snackbar open={successIsOpen} autoHideDuration={3000} onClose={handleSuccessClose}>
-        <Alert severity="success">Play successfully deleted!</Alert>
-      </Snackbar>
-      <Snackbar open={failIsOpen} autoHideDuration={3000} onClose={handleErrorClose}>
-        <Alert severity="error">Unable to delete play!</Alert>
-      </Snackbar>
+      <Alert type="success" isOpen={successIsOpen} label={"Play deleted!"} onClose={handleSuccessClose} />
+      <Alert type="error" isOpen={failIsOpen} label={"Unable to delete!"} onClose={handleFailClose} />
     </>
   );
 };

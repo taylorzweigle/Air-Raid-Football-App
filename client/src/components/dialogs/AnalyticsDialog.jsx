@@ -3,13 +3,15 @@ import React, { useState } from "react";
 
 import Grid from "@mui/material/Grid";
 
-import Card from "../Card";
-import Dialog from "../Dialog";
-import SelectButton from "../buttons/SelectButton";
+import Dialog from "./Dialog";
 
+import Card from "../cards/Card";
 import ChartCard from "../cards/ChartCard";
 
+import SelectButton from "../buttons/SelectButton";
+
 import BarChart from "../charts/BarChart";
+
 import TotalsTable from "../tables/TotalsTable";
 
 import { FORMATIONS, PLAYS, POSITIONS, SEASONS } from "../../data/foundations";

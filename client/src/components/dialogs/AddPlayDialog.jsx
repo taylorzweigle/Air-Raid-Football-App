@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-import ButtonGroup from "../buttons/ButtonGroup";
+import Dialog from "./Dialog";
 
-import Dialog from "../Dialog";
+import ButtonGroup from "../buttons/ButtonGroup";
 
 import { DOWNS, DISTANCES, FORMATIONS, PLAYS, POSITIONS, RESULTS } from "../../data/foundations";
 

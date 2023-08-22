@@ -97,7 +97,7 @@ export const getSeasonFirstDowns = (plays, season) => {
 
 export const getSeasonTouchdowns = (plays, season) => {
   if (plays) {
-    return plays.filter((p) => p.touchdown === true && _isInSeason(p.dateKey, season)).length;
+    return plays.filter((p) => _isTouchdown(p.touchdown) && _isInSeason(p.dateKey, season)).length;
   }
 };
 

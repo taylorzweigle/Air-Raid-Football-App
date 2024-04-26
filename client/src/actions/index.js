@@ -1,13 +1,3 @@
-//Taylor Zweigle, 2023
-export const theme = () => {
-  return {
-    type: "THEME",
-  };
-};
-
-export const season = (season) => {
-  return {
-    type: "SEASON",
-    value: season,
-  };
-};
+//Taylor Zweigle, 2024
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";

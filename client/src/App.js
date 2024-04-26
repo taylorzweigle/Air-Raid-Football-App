@@ -1,57 +1,29 @@
-//Taylor Zweigle, 2023
+//Taylor Zweigle, 2024
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router";
-import { useSelector } from "react-redux";
 
-import { ThemeProvider } from "@mui/material";
+import { useAuthContext } from "./hooks/useAuthContext";
 
-import CssBaseline from "@mui/material/CssBaseline";
-
-import GamePage from "./pages/GamePage";
-import HomePage from "./pages/HomePage";
-
-import { darkTheme } from "./themes/darkTheme";
-import { lightTheme } from "./themes/lightTheme";
+import AirRaidFootballApp from "./pages/AirRaidFootballApp";
+import LoginPage from "./pages/LoginPage";
 
 const App = () => {
-  const theme = useSelector((state) => state.theme);
+  const { user } = useAuthContext();
 
-  const [games, setGames] = useState(null);
-  const [plays, setPlays] = useState(null);
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      const response = await fetch("/api/games");
-
-      if (response.ok) {
-        setGames(await response.json());
-      }
-    };
-
-    fetchGames();
-  }, []);
+  const [isLoggedInView, setIsLoggedInView] = useState(false);
+  const [isLoggedInEdit, setIsLoggedInEdit] = useState(false);
 
   useEffect(() => {
-    const fetchPlays = async () => {
-      const response = await fetch("/api/plays");
-
-      if (response.ok) {
-        setPlays(await response.json());
-      }
-    };
-
-    fetchPlays();
-  }, []);
+    setIsLoggedInView(user && user.username === "airraidapp" ? true : false);
+    setIsLoggedInEdit(user && user.username === "airraidapp_edit" ? true : false);
+  }, [user]);
 
   return (
-    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-      <CssBaseline />
-      <Routes>
-        <Route path="/:id" element={<GamePage plays={plays} />} />
-        <Route path="/" element={<HomePage games={games} plays={plays} />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </ThemeProvider>
+    <Routes>
+      <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
+      <Route path="/" element={isLoggedInView || isLoggedInEdit ? <AirRaidFootballApp /> : <Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/login" />} />
+    </Routes>
   );
 };
 

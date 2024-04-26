@@ -5,7 +5,8 @@ import * as ACTIONS from "../actions";
 
 import { useAuthContext } from "./useAuthContext";
 
-const API_URL = process.env.NODE_ENV === "production" ? "http://localhost:5000" : "http://localhost:5000";
+const API_URL =
+  process.env.NODE_ENV === "production" ? "https://https://air-raid-football-app-server.vercel.app" : "http://localhost:5000";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);

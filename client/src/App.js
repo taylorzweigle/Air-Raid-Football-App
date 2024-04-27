@@ -2,13 +2,20 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router";
 
-import { useAuthContext } from "./hooks/useAuthContext";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 
-import AirRaidFootballApp from "./pages/AirRaidFootballApp";
+import { useAuthContext } from "./hooks/useAuthContext";
+import { useThemeContext } from "./hooks/useThemeContext";
+
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+
+import { darkTheme } from "./themes/darkTheme";
+import { lightTheme } from "./themes/lightTheme";
 
 const App = () => {
   const { user } = useAuthContext();
+  const { theme } = useThemeContext();
 
   const [isLoggedInView, setIsLoggedInView] = useState(false);
   const [isLoggedInEdit, setIsLoggedInEdit] = useState(false);
@@ -19,11 +26,14 @@ const App = () => {
   }, [user]);
 
   return (
-    <Routes>
-      <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
-      <Route path="/" element={isLoggedInView || isLoggedInEdit ? <AirRaidFootballApp /> : <Navigate to="/login" />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <CssBaseline />
+      <Routes>
+        <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
+        <Route path="/" element={isLoggedInView || isLoggedInEdit ? <HomePage /> : <Navigate to="/login" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </ThemeProvider>
   );
 };
 

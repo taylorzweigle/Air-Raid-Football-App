@@ -10,19 +10,22 @@ import Typography from "@mui/material/Typography";
 
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import * as Actions from "../../actions";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 import { useThemeContext } from "../../hooks/useThemeContext";
 
 import Card from "../../core/card/Card";
 
-import Data from "../data/Data";
+import DetailsData from "../data/DetailsData";
 
 const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
   const { user } = useAuthContext();
+  const { logout } = useLogout();
   const { theme, dispatchTheme } = useThemeContext();
 
   return (
@@ -39,7 +42,7 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
           </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" spacing={8}>
-          {details && details.map((item) => <Data key={item.label} label={item.label} value={item.value} />)}
+          {details && details.map((item) => <DetailsData key={item.label} label={item.label} value={item.value} />)}
         </Stack>
         <Stack direction="row" alignItems="center" spacing={2}>
           <Stack direction="row" alignItems="center" spacing={1}>
@@ -60,6 +63,9 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
               Create Game
             </Button>
           )}
+          <IconButton onClick={() => logout()}>
+            <LogoutIcon />
+          </IconButton>
         </Stack>
       </Stack>
     </Card>

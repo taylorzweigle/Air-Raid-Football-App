@@ -4,7 +4,7 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-const ReadOnlyData = ({ label, value }) => {
+const DetailsData = ({ label, value }) => {
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
       <Typography variant="caption" color="text.secondary">
@@ -17,4 +17,4 @@ const ReadOnlyData = ({ label, value }) => {
   );
 };
 
-export default ReadOnlyData;
+export default DetailsData;

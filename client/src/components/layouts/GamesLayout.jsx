@@ -71,9 +71,7 @@ const GamesLayout = ({ games }) => {
                   >{`${game.score}-${game.opponentScore}`}</TableTypography>
                 </TableCell>
                 <TableCell sx={cellStyle}>
-                  <TableTypography score={game.score} opponentScore={game.opponentScore}>
-                    {game.plays}
-                  </TableTypography>
+                  <TableTypography score={game.score} opponentScore={game.opponentScore}></TableTypography>
                 </TableCell>
               </TableRow>
             ))}

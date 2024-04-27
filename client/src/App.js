@@ -7,7 +7,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { useThemeContext } from "./hooks/useThemeContext";
 
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/homePage/HomePage";
 import LoginPage from "./pages/LoginPage";
 
 import { darkTheme } from "./themes/darkTheme";

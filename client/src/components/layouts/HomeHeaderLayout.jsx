@@ -21,18 +21,19 @@ import { useThemeContext } from "../../hooks/useThemeContext";
 
 import Card from "../../core/card/Card";
 
-import DetailsData from "../data/DetailsData";
+import DetailsData from "../detailsData/DetailsData";
 
 const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
-  const { user } = useAuthContext();
   const { logout } = useLogout();
+
+  const { user } = useAuthContext();
   const { theme, dispatchTheme } = useThemeContext();
 
   return (
     <Card>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: "8px" }}>
         <Stack direction="row" alignItems="center" gap={2}>
-          <Select value={selectedYear} onChange={(e) => onSelectYear(e.target.value)}>
+          <Select value={selectedYear} onChange={(e) => onSelectYear(e.target.value)} sx={{ minWidth: 128 }}>
             <MenuItem value="2017">2017</MenuItem>
             <MenuItem value="2018">2018</MenuItem>
             <MenuItem value="2019">2019</MenuItem>
@@ -41,7 +42,7 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
             Football Season
           </Typography>
         </Stack>
-        <Stack direction="row" alignItems="center" spacing={8}>
+        <Stack direction="row" alignItems="center" spacing={4}>
           {details && details.map((item) => <DetailsData key={item.label} label={item.label} value={item.value} />)}
         </Stack>
         <Stack direction="row" alignItems="center" spacing={2}>

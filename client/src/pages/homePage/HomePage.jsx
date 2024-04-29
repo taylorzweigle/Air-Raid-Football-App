@@ -12,10 +12,13 @@ import PlaysLayout from "../../components/layouts/PlaysLayout";
 import PositionsLayout from "../../components/layouts/PositionsLayout";
 import TotalPlaysLayout from "../../components/layouts/TotalPlaysLayout";
 
+import AnalyticsModal from "../../components/modals/AnalyticsModal";
+import LogoutModal from "../../components/modals/LogoutModal";
 import PlaybookModal from "../../components/modals/PlaybookModal";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useGamesContext } from "../../hooks/useGamesContext";
+import { useLogout } from "../../hooks/useLogout";
 import { usePlaysContext } from "../../hooks/usePlaysContext";
 
 import { getGames } from "../../api/games";
@@ -33,12 +36,15 @@ import {
 const HomePage = () => {
   const { user } = useAuthContext();
   const { games, dispatchGames } = useGamesContext();
+  const { logout } = useLogout();
   const { plays, dispatchPlays } = usePlaysContext();
 
   const [selectedYear, setSelectedYear] = useState("2017");
   const [seasonGames, setSeasonGames] = useState([]);
   const [details, setDetails] = useState([]);
 
+  const [analyticsModal, setAnalyticsModal] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
   const [playbookModal, setPlaybookModal] = useState(false);
 
   useEffect(() => {
@@ -93,9 +99,10 @@ const HomePage = () => {
             details={details}
             selectedYear={selectedYear}
             onSelectYear={handleSelectedYear}
-            onPlaybookClick={() => {
-              setPlaybookModal(true);
-            }}
+            onPlaybook={() => setPlaybookModal(true)}
+            onAnalytics={() => setAnalyticsModal(true)}
+            onCreateGame={() => {}}
+            onLogout={() => setLogoutModal(true)}
           />
         </Grid>
         <Grid item xs={12} lg={5}>
@@ -118,12 +125,9 @@ const HomePage = () => {
           </Grid>
         </Grid>
       </Grid>
-      <PlaybookModal
-        open={playbookModal}
-        onClose={() => {
-          setPlaybookModal(false);
-        }}
-      />
+      <PlaybookModal open={playbookModal} onClose={() => setPlaybookModal(false)} />
+      <AnalyticsModal open={analyticsModal} onClose={() => setAnalyticsModal(false)} />
+      <LogoutModal open={logoutModal} onClose={() => setLogoutModal(false)} onLogout={() => logout()} />
     </>
   );
 };

@@ -16,16 +16,13 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import * as Actions from "../../actions";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
-import { useLogout } from "../../hooks/useLogout";
 import { useThemeContext } from "../../hooks/useThemeContext";
 
 import Card from "../../core/card/Card";
 
 import DetailsData from "../detailsData/DetailsData";
 
-const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybookClick }) => {
-  const { logout } = useLogout();
-
+const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybook, onAnalytics, onCreateGame, onLogout }) => {
   const { user } = useAuthContext();
   const { theme, dispatchTheme } = useThemeContext();
 
@@ -51,7 +48,7 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybookClick
         </Stack>
         <Stack direction="row" alignItems="center" spacing={2}>
           <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton onClick={onPlaybookClick}>
+            <IconButton onClick={onPlaybook}>
               <MenuBookIcon />
             </IconButton>
             <IconButton
@@ -60,15 +57,15 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybookClick
               {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
           </Stack>
-          <Button variant="outlined" color="secondary" onClick={() => {}}>
+          <Button variant="outlined" color="secondary" onClick={onAnalytics}>
             Analytics
           </Button>
           {user && user.username === "airraidapp_edit" && (
-            <Button variant="contained" color="primary" onClick={() => {}}>
+            <Button variant="contained" color="primary" onClick={onCreateGame}>
               Create Game
             </Button>
           )}
-          <IconButton onClick={() => logout()}>
+          <IconButton onClick={onLogout}>
             <LogoutIcon />
           </IconButton>
         </Stack>

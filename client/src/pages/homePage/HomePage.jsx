@@ -12,6 +12,8 @@ import PlaysLayout from "../../components/layouts/PlaysLayout";
 import PositionsLayout from "../../components/layouts/PositionsLayout";
 import TotalPlaysLayout from "../../components/layouts/TotalPlaysLayout";
 
+import PlaybookModal from "../../components/modals/PlaybookModal";
+
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useGamesContext } from "../../hooks/useGamesContext";
 import { usePlaysContext } from "../../hooks/usePlaysContext";
@@ -36,6 +38,8 @@ const HomePage = () => {
   const [selectedYear, setSelectedYear] = useState("2017");
   const [seasonGames, setSeasonGames] = useState([]);
   const [details, setDetails] = useState([]);
+
+  const [playbookModal, setPlaybookModal] = useState(false);
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -82,30 +86,45 @@ const HomePage = () => {
   };
 
   return (
-    <Grid container spacing={0}>
-      <Grid item xs={12}>
-        <HomeHeaderLayout details={details} selectedYear={selectedYear} onSelectYear={handleSelectedYear} />
+    <>
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          <HomeHeaderLayout
+            details={details}
+            selectedYear={selectedYear}
+            onSelectYear={handleSelectedYear}
+            onPlaybookClick={() => {
+              setPlaybookModal(true);
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={5}>
+          <Grid item xs={12}>
+            <GamesLayout games={seasonGames} />
+          </Grid>
+          <Grid item xs={12}>
+            <TotalPlaysLayout games={seasonGames} plays={plays} />
+          </Grid>
+        </Grid>
+        <Grid item xs={12} lg={7}>
+          <Grid item xs={12}>
+            <PlaysLayout plays={plays} selectedYear={selectedYear} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormationsLayout plays={plays} selectedYear={selectedYear} />
+          </Grid>
+          <Grid item xs={12}>
+            <PositionsLayout plays={plays} selectedYear={selectedYear} />
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item xs={12} lg={5}>
-        <Grid item xs={12}>
-          <GamesLayout games={seasonGames} />
-        </Grid>
-        <Grid item xs={12}>
-          <TotalPlaysLayout games={seasonGames} plays={plays} />
-        </Grid>
-      </Grid>
-      <Grid item xs={12} lg={7}>
-        <Grid item xs={12}>
-          <PlaysLayout plays={plays} selectedYear={selectedYear} />
-        </Grid>
-        <Grid item xs={12}>
-          <FormationsLayout plays={plays} selectedYear={selectedYear} />
-        </Grid>
-        <Grid item xs={12}>
-          <PositionsLayout plays={plays} selectedYear={selectedYear} />
-        </Grid>
-      </Grid>
-    </Grid>
+      <PlaybookModal
+        open={playbookModal}
+        onClose={() => {
+          setPlaybookModal(false);
+        }}
+      />
+    </>
   );
 };
 

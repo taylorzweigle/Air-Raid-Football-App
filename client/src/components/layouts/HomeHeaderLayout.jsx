@@ -23,7 +23,7 @@ import Card from "../../core/card/Card";
 
 import DetailsData from "../detailsData/DetailsData";
 
-const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
+const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybookClick }) => {
   const { logout } = useLogout();
 
   const { user } = useAuthContext();
@@ -33,7 +33,11 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
     <Card>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: "8px" }}>
         <Stack direction="row" alignItems="center" gap={2}>
-          <Select value={selectedYear} onChange={(e) => onSelectYear(e.target.value)} sx={{ minWidth: 128 }}>
+          <Select
+            value={selectedYear}
+            onChange={(e) => onSelectYear(e.target.value)}
+            sx={{ minWidth: 128, backgroundColor: "background.paper" }}
+          >
             <MenuItem value="2017">2017</MenuItem>
             <MenuItem value="2018">2018</MenuItem>
             <MenuItem value="2019">2019</MenuItem>
@@ -47,7 +51,7 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear }) => {
         </Stack>
         <Stack direction="row" alignItems="center" spacing={2}>
           <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton onClick={() => {}}>
+            <IconButton onClick={onPlaybookClick}>
               <MenuBookIcon />
             </IconButton>
             <IconButton

@@ -5,7 +5,7 @@ export const DataContext = createContext();
 
 export const DataContextProvider = ({ children }) => {
   const data = {
-    SEASONS: ["2017", "2018", "2019"],
+    SEASONS: ["2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"],
     DISTANCES: ["10", "Long", "Short", "Inches", "Goal-to-Go"],
     DOWNS: ["1st", "2nd", "3rd", "4th"],
     FORMATIONS: ["Ace", "Green", "Blue", "Early", "Late", "Empty", "Special"],

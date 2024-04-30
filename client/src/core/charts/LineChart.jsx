@@ -34,7 +34,7 @@ const LineChart = ({ series, data }) => {
       },
     },
     yAxis: {
-      min: 0.0,
+      min: Math.min(...data),
       ceiling: Math.max(...data),
       step: 1,
       gridLineDashStyle: "dash",

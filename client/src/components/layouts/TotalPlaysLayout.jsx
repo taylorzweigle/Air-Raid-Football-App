@@ -31,7 +31,7 @@ const TotalPlaysLayout = ({ games, plays }) => {
   return (
     <Card>
       <Stack direction="column" spacing={2} sx={{ padding: "8px" }}>
-        <Typography variant="subtitle1">Total Plays</Typography>
+        <Typography variant="subtitle1">Total Plays per Game</Typography>
         <LineChart
           series={games ? games.map((game) => abbreviateOpponent(game.opponent)) : []}
           data={games && plays ? games.map((game) => getSeasonTotalPlaysPerOpponent(plays, game.date)) : []}

@@ -13,6 +13,7 @@ import PositionsLayout from "../../components/layouts/PositionsLayout";
 import TotalPlaysLayout from "../../components/layouts/TotalPlaysLayout";
 
 import AnalyticsModal from "../../components/modals/AnalyticsModal";
+import CreateGameModal from "../../components/modals/CreateGameModal";
 import LogoutModal from "../../components/modals/LogoutModal";
 import PlaybookModal from "../../components/modals/PlaybookModal";
 
@@ -44,6 +45,7 @@ const HomePage = () => {
   const [details, setDetails] = useState([]);
 
   const [analyticsModal, setAnalyticsModal] = useState(false);
+  const [createGameModal, setCreateGameModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
   const [playbookModal, setPlaybookModal] = useState(false);
 
@@ -52,14 +54,18 @@ const HomePage = () => {
       const games = await getGames(user.token);
 
       dispatchGames({ type: Actions.GET_GAMES, payload: games.json });
-
-      setSeasonGames(games.json.filter((game) => isInSeason(game.date, selectedYear)));
     };
 
     if (user) {
       fetchGames();
     }
   }, [user, selectedYear, dispatchGames]);
+
+  useEffect(() => {
+    if (games) {
+      setSeasonGames(games.filter((game) => isInSeason(game.date, selectedYear)));
+    }
+  }, [games]);
 
   useEffect(() => {
     const fetchPlays = async () => {
@@ -101,13 +107,13 @@ const HomePage = () => {
             onSelectYear={handleSelectedYear}
             onPlaybook={() => setPlaybookModal(true)}
             onAnalytics={() => setAnalyticsModal(true)}
-            onCreateGame={() => {}}
+            onCreateGame={() => setCreateGameModal(true)}
             onLogout={() => setLogoutModal(true)}
           />
         </Grid>
         <Grid item xs={12} lg={5}>
           <Grid item xs={12}>
-            <GamesLayout games={seasonGames} />
+            <GamesLayout games={seasonGames} plays={plays} />
           </Grid>
           <Grid item xs={12}>
             <TotalPlaysLayout games={seasonGames} plays={plays} />
@@ -127,6 +133,7 @@ const HomePage = () => {
       </Grid>
       <PlaybookModal open={playbookModal} onClose={() => setPlaybookModal(false)} />
       <AnalyticsModal open={analyticsModal} onClose={() => setAnalyticsModal(false)} />
+      <CreateGameModal open={createGameModal} onClose={() => setCreateGameModal(false)} />
       <LogoutModal open={logoutModal} onClose={() => setLogoutModal(false)} onLogout={() => logout()} />
     </>
   );

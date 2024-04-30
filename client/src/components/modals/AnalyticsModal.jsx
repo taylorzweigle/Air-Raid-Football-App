@@ -97,7 +97,9 @@ const AnalyticsModal = ({ open, onClose }) => {
                     sx={{ minWidth: 128, backgroundColor: "background.paper" }}
                   >
                     {SEASONS.map((season) => (
-                      <MenuItem value={season}>{season}</MenuItem>
+                      <MenuItem key={season} value={season}>
+                        {season}
+                      </MenuItem>
                     ))}
                   </Select>
                   <Select
@@ -106,7 +108,9 @@ const AnalyticsModal = ({ open, onClose }) => {
                     sx={{ minWidth: 256, backgroundColor: "background.paper" }}
                   >
                     {PLAYS.map((play) => (
-                      <MenuItem value={play}>{play}</MenuItem>
+                      <MenuItem key={play} value={play}>
+                        {play}
+                      </MenuItem>
                     ))}
                   </Select>
                 </Stack>
@@ -133,7 +137,7 @@ const AnalyticsModal = ({ open, onClose }) => {
             </Card>
             <Card>
               <div style={{ height: "564px", overflow: "scroll" }}>
-                <PlaysByResultTable plays={getPlayTotals()} />
+                <PlaysByResultTable plays={getPlayTotals()} selectedPlay={play} />
               </div>
             </Card>
           </Grid>

@@ -16,6 +16,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import * as Actions from "../../actions";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useDataContext } from "../../hooks/useDataContext";
 import { useThemeContext } from "../../hooks/useThemeContext";
 
 import Card from "../../core/card/Card";
@@ -24,6 +25,7 @@ import DetailsData from "../detailsData/DetailsData";
 
 const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybook, onAnalytics, onCreateGame, onLogout }) => {
   const { user } = useAuthContext();
+  const { SEASONS } = useDataContext();
   const { theme, dispatchTheme } = useThemeContext();
 
   return (
@@ -35,9 +37,11 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybook, onA
             onChange={(e) => onSelectYear(e.target.value)}
             sx={{ minWidth: 128, backgroundColor: "background.paper" }}
           >
-            <MenuItem value="2017">2017</MenuItem>
-            <MenuItem value="2018">2018</MenuItem>
-            <MenuItem value="2019">2019</MenuItem>
+            {SEASONS.map((season) => (
+              <MenuItem key={season} value={season}>
+                {season}
+              </MenuItem>
+            ))}
           </Select>
           <Typography variant="h6" color="text.primary">
             Football Season
@@ -47,16 +51,9 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybook, onA
           {details && details.map((item) => <DetailsData key={item.label} label={item.label} value={item.value} />)}
         </Stack>
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton onClick={onPlaybook}>
-              <MenuBookIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => dispatchTheme({ type: Actions.SET_THEME, payload: theme === "light" ? "dark" : "light" })}
-            >
-              {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
-            </IconButton>
-          </Stack>
+          <IconButton onClick={onPlaybook}>
+            <MenuBookIcon />
+          </IconButton>
           <Button variant="outlined" color="secondary" onClick={onAnalytics}>
             Analytics
           </Button>
@@ -65,9 +62,16 @@ const HomeHeaderLayout = ({ details, selectedYear, onSelectYear, onPlaybook, onA
               Create Game
             </Button>
           )}
-          <IconButton onClick={onLogout}>
-            <LogoutIcon />
-          </IconButton>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <IconButton
+              onClick={() => dispatchTheme({ type: Actions.SET_THEME, payload: theme === "light" ? "dark" : "light" })}
+            >
+              {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+            <IconButton onClick={onLogout}>
+              <LogoutIcon />
+            </IconButton>
+          </Stack>
         </Stack>
       </Stack>
     </Card>

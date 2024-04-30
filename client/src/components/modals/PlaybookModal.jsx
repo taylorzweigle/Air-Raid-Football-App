@@ -40,7 +40,9 @@ const PlaybookModal = ({ open, onClose }) => {
                 sx={{ minWidth: 128, backgroundColor: "background.paper" }}
               >
                 {FORMATIONS.map((formation) => (
-                  <MenuItem value={formation}>{formation}</MenuItem>
+                  <MenuItem key={formation} value={formation}>
+                    {formation}
+                  </MenuItem>
                 ))}
               </Select>
               <Select
@@ -49,7 +51,9 @@ const PlaybookModal = ({ open, onClose }) => {
                 sx={{ minWidth: 256, backgroundColor: "background.paper" }}
               >
                 {PLAYS.map((play) => (
-                  <MenuItem value={play}>{play}</MenuItem>
+                  <MenuItem key={play} value={play}>
+                    {play}
+                  </MenuItem>
                 ))}
               </Select>
             </Stack>

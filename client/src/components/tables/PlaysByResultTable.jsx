@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 
-const PlaysByResultTable = ({ plays }) => {
+const PlaysByResultTable = ({ plays, selectedPlay }) => {
   const headerCellStyle = {
     padding: "8px 16px",
     backgroundColor: "background.border",
@@ -20,6 +20,11 @@ const PlaysByResultTable = ({ plays }) => {
 
   const cellStyle = {
     padding: "8px 16px",
+  };
+
+  const selectedCellStyle = {
+    borderStyle: "solid",
+    borderColor: "primary.main",
   };
 
   const TableTypography = ({ children, score, opponentScore }) => {
@@ -44,16 +49,28 @@ const PlaysByResultTable = ({ plays }) => {
         {plays &&
           plays.map((play) => (
             <TableRow key={play.play} sx={tableRowStyle}>
-              <TableCell sx={cellStyle}>
+              <TableCell
+                sx={
+                  selectedPlay === play.play ? { borderWidth: "1px 0 1px 1px", ...selectedCellStyle, ...cellStyle } : cellStyle
+                }
+              >
                 <TableTypography>{play.play}</TableTypography>
               </TableCell>
-              <TableCell sx={cellStyle}>
+              <TableCell
+                sx={selectedPlay === play.play ? { borderWidth: "1px 0 1px 0", ...selectedCellStyle, ...cellStyle } : cellStyle}
+              >
                 <TableTypography>{play.firstDowns}</TableTypography>
               </TableCell>
-              <TableCell sx={cellStyle}>
+              <TableCell
+                sx={selectedPlay === play.play ? { borderWidth: "1px 0 1px 0", ...selectedCellStyle, ...cellStyle } : cellStyle}
+              >
                 <TableTypography>{play.touchdowns}</TableTypography>
               </TableCell>
-              <TableCell sx={cellStyle}>
+              <TableCell
+                sx={
+                  selectedPlay === play.play ? { borderWidth: "1px 1px 1px 0", ...selectedCellStyle, ...cellStyle } : cellStyle
+                }
+              >
                 <TableTypography>{play.interceptions}</TableTypography>
               </TableCell>
             </TableRow>

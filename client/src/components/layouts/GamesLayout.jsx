@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 
 import Card from "../../core/card/Card";
 
-const GamesLayout = ({ games }) => {
+const GamesLayout = ({ games, plays }) => {
   const headerCellStyle = {
     padding: "8px 16px",
     backgroundColor: "background.border",
@@ -23,6 +23,16 @@ const GamesLayout = ({ games }) => {
   const cellStyle = {
     padding: "8px 16px",
     cursor: "pointer",
+  };
+
+  const getTotalPlays = (dateKey) => {
+    const data = [];
+
+    if (plays) {
+      data.push(plays.filter((p) => p.dateKey === dateKey).length);
+    }
+
+    return data;
   };
 
   const TableTypography = ({ children, score, opponentScore }) => {
@@ -71,7 +81,9 @@ const GamesLayout = ({ games }) => {
                   >{`${game.score}-${game.opponentScore}`}</TableTypography>
                 </TableCell>
                 <TableCell sx={cellStyle}>
-                  <TableTypography score={game.score} opponentScore={game.opponentScore}></TableTypography>
+                  <TableTypography score={game.score} opponentScore={game.opponentScore}>
+                    {getTotalPlays(game.date)}
+                  </TableTypography>
                 </TableCell>
               </TableRow>
             ))}

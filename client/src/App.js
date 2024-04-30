@@ -7,6 +7,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { useThemeContext } from "./hooks/useThemeContext";
 
+import GamePage from "./pages/gamePage/GamePage";
 import HomePage from "./pages/homePage/HomePage";
 import LoginPage from "./pages/LoginPage";
 
@@ -29,6 +30,7 @@ const App = () => {
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <CssBaseline />
       <Routes>
+        <Route path="/:id" element={isLoggedInView || isLoggedInEdit ? <GamePage /> : <Navigate to="/login" />} />
         <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
         <Route path="/" element={isLoggedInView || isLoggedInEdit ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/login" />} />

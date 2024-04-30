@@ -1,5 +1,6 @@
 //Taylor Zweigle, 2024
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -58,7 +59,7 @@ const GamesLayout = ({ games, plays }) => {
         <TableBody>
           {games &&
             games.map((game) => (
-              <TableRow key={game._id} sx={tableRowStyle} hover>
+              <TableRow key={game._id} to={`/${game._id}`} component={RouterLink} sx={tableRowStyle} hover>
                 <TableCell sx={cellStyle}>
                   <TableTypography score={game.score} opponentScore={game.opponentScore}>
                     {game.opponent}

@@ -28,42 +28,44 @@ const GameHeaderLayout = ({ game, details, onPlaybook, onAnalytics, onAddPlay, o
 
   return (
     <Card>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: "8px" }}>
-        <Stack direction="row" alignItems="center" gap={2}>
-          <IconButton variant="text" color="primary" to={"/"} component={RouterLink}>
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography variant="h6" color="text.primary">
-            {game.opponent}
-          </Typography>
-        </Stack>
-        <Stack direction="row" alignItems="center" spacing={4}>
-          {details && details.map((item) => <DetailsData key={item.label} label={item.label} value={item.value} />)}
-        </Stack>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <IconButton onClick={onPlaybook}>
-            <MenuBookIcon />
-          </IconButton>
-          <Button variant="outlined" color="secondary" onClick={onAnalytics}>
-            Analytics
-          </Button>
-          {user && user.username === "airraidapp_edit" && (
-            <Button variant="contained" color="primary" onClick={onAddPlay}>
-              Add Play
+      <div style={{ height: "72px" }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: "8px" }}>
+          <Stack direction="row" alignItems="center" gap={2}>
+            <IconButton variant="text" color="primary" to={"/"} component={RouterLink}>
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="h6" color="text.primary">
+              {game.opponent}
+            </Typography>
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={4}>
+            {details && details.map((item) => <DetailsData key={item.label} label={item.label} value={item.value} />)}
+          </Stack>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <IconButton onClick={onPlaybook}>
+              <MenuBookIcon />
+            </IconButton>
+            <Button variant="outlined" color="secondary" onClick={onAnalytics}>
+              Analytics
             </Button>
-          )}
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton
-              onClick={() => dispatchTheme({ type: Actions.SET_THEME, payload: theme === "light" ? "dark" : "light" })}
-            >
-              {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
-            </IconButton>
-            <IconButton onClick={onLogout}>
-              <LogoutIcon />
-            </IconButton>
+            {user && user.username === "airraidapp_edit" && (
+              <Button variant="contained" color="primary" onClick={onAddPlay}>
+                Add Play
+              </Button>
+            )}
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <IconButton
+                onClick={() => dispatchTheme({ type: Actions.SET_THEME, payload: theme === "light" ? "dark" : "light" })}
+              >
+                {theme === "light" ? <LightModeIcon /> : <DarkModeIcon />}
+              </IconButton>
+              <IconButton onClick={onLogout}>
+                <LogoutIcon />
+              </IconButton>
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
+      </div>
     </Card>
   );
 };

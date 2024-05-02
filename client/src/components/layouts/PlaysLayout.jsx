@@ -8,7 +8,7 @@ import PlaysTable from "../tables/PlaysTable";
 const PlaysLayout = ({ plays }) => {
   return (
     <Card>
-      <div style={{ height: "93vh", overflow: "scroll" }}>
+      <div style={{ height: "91vh", overflow: "scroll" }}>
         <PlaysTable plays={plays} />
       </div>
     </Card>

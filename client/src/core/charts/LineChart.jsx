@@ -12,7 +12,7 @@ const LineChart = ({ series, data }) => {
     chart: {
       type: "line",
       backgroundColor: "rgba(0, 0, 0, 0.0)",
-      height: "215px",
+      height: "188px",
     },
     credits: {
       enabled: false,

@@ -12,7 +12,7 @@ const BarChart = ({ series, data }) => {
     chart: {
       type: "column",
       backgroundColor: "rgba(0, 0, 0, 0.0)",
-      height: "215px",
+      height: "195px",
     },
     credits: {
       enabled: false,

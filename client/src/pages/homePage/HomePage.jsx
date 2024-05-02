@@ -5,11 +5,11 @@ import Grid from "@mui/material/Grid";
 
 import * as Actions from "../../actions";
 
-import FormationsLayout from "../../components/layouts/FormationsLayout";
+import FormationsChartLayout from "../../components/layouts/FormationsChartLayout";
 import GamesLayout from "../../components/layouts/GamesLayout";
 import HomeHeaderLayout from "../../components/layouts/HomeHeaderLayout";
-import PlaysLayout from "../../components/layouts/PlaysLayout";
-import PositionsLayout from "../../components/layouts/PositionsLayout";
+import PlaysChartLayout from "../../components/layouts/PlaysChartLayout";
+import PositionsChartLayout from "../../components/layouts/PositionsChartLayout";
 import TotalPlaysLayout from "../../components/layouts/TotalPlaysLayout";
 
 import AnalyticsModal from "../../components/modals/AnalyticsModal";
@@ -65,7 +65,7 @@ const HomePage = () => {
     if (games) {
       setSeasonGames(games.filter((game) => isInSeason(game.date, selectedYear)));
     }
-  }, [games]);
+  }, [games, selectedYear]);
 
   useEffect(() => {
     const fetchPlays = async () => {
@@ -97,6 +97,8 @@ const HomePage = () => {
     setSeasonGames(games.filter((game) => isInSeason(game.date, year)));
   };
 
+  const getSeasonPlays = () => plays && plays.filter((play) => play.dateKey.slice(6, 10) === selectedYear);
+
   return (
     <>
       <Grid container spacing={0}>
@@ -121,13 +123,13 @@ const HomePage = () => {
         </Grid>
         <Grid item xs={12} lg={7}>
           <Grid item xs={12}>
-            <PlaysLayout plays={plays} selectedYear={selectedYear} />
+            <PlaysChartLayout plays={getSeasonPlays()} />
           </Grid>
           <Grid item xs={12}>
-            <FormationsLayout plays={plays} selectedYear={selectedYear} />
+            <FormationsChartLayout plays={getSeasonPlays()} />
           </Grid>
           <Grid item xs={12}>
-            <PositionsLayout plays={plays} selectedYear={selectedYear} />
+            <PositionsChartLayout plays={getSeasonPlays()} />
           </Grid>
         </Grid>
       </Grid>

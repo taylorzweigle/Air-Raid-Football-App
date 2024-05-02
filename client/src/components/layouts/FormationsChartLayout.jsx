@@ -9,17 +9,15 @@ import { useDataContext } from "../../hooks/useDataContext";
 import Card from "../../core/card/Card";
 import BarChart from "../../core/charts/BarChart";
 
-const FormationsLayout = ({ plays, selectedYear }) => {
+const FormationsChartLayout = ({ plays }) => {
   const { FORMATIONS } = useDataContext();
 
-  const isInSeason = (date, season) => date.slice(6, 10) === season;
-
-  const getSeasonFormationsTotals = (plays, season) => {
+  const getSeasonFormationsTotals = (plays) => {
     const data = [];
 
     if (plays) {
       for (let i = 0; i < FORMATIONS.length; i++) {
-        data.push(plays.filter((p) => p.formation === FORMATIONS[i] && isInSeason(p.dateKey, season)).length);
+        data.push(plays.filter((p) => p.formation === FORMATIONS[i]).length);
       }
     }
 
@@ -30,10 +28,10 @@ const FormationsLayout = ({ plays, selectedYear }) => {
     <Card>
       <Stack direction="column" spacing={2} sx={{ padding: "8px" }}>
         <Typography variant="subtitle1">Formations</Typography>
-        <BarChart series={FORMATIONS} data={getSeasonFormationsTotals(plays, selectedYear)} />
+        <BarChart series={FORMATIONS} data={getSeasonFormationsTotals(plays)} />
       </Stack>
     </Card>
   );
 };
 
-export default FormationsLayout;
+export default FormationsChartLayout;

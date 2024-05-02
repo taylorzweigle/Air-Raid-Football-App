@@ -4,11 +4,16 @@ import { useParams } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 
+import FormationsChartLayout from "../../components/layouts/FormationsChartLayout";
 import GameHeaderLayout from "../../components/layouts/GameHeaderLayout";
+import PlaysLayout from "../../components/layouts/PlaysLayout";
+import PlaysChartLayout from "../../components/layouts/PlaysChartLayout";
+import PositionsChartLayout from "../../components/layouts/PositionsChartLayout";
 
-import PlaybookModal from "../../components/modals/PlaybookModal";
+import AddPlayModal from "../../components/modals/AddPlayModal";
 import AnalyticsModal from "../../components/modals/AnalyticsModal";
 import LogoutModal from "../../components/modals/LogoutModal";
+import PlaybookModal from "../../components/modals/PlaybookModal";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
@@ -56,7 +61,9 @@ const GamePage = () => {
 
       setDetails(details);
     }
-  }, [game]);
+  }, [game, plays]);
+
+  const getGamePlays = () => plays && plays.filter((play) => play.dateKey === game.date);
 
   return (
     <>
@@ -67,22 +74,30 @@ const GamePage = () => {
             details={details}
             onPlaybook={() => setPlaybookModal(true)}
             onAnalytics={() => setAnalyticsModal(true)}
-            onCreatePlay={() => setAddPlayModal(true)}
+            onAddPlay={() => setAddPlayModal(true)}
             onLogout={() => setLogoutModal(true)}
           />
         </Grid>
         <Grid item xs={12} lg={5}>
-          <Grid item xs={12}></Grid>
-          <Grid item xs={12}></Grid>
+          <Grid item xs={12}>
+            <PlaysLayout plays={getGamePlays()} />
+          </Grid>
         </Grid>
         <Grid item xs={12} lg={7}>
-          <Grid item xs={12}></Grid>
-          <Grid item xs={12}></Grid>
-          <Grid item xs={12}></Grid>
+          <Grid item xs={12}>
+            <PlaysChartLayout plays={getGamePlays()} />
+          </Grid>
+          <Grid item xs={12}>
+            <FormationsChartLayout plays={getGamePlays()} />
+          </Grid>
+          <Grid item xs={12}>
+            <PositionsChartLayout plays={getGamePlays()} />
+          </Grid>
         </Grid>
       </Grid>
       <PlaybookModal open={playbookModal} onClose={() => setPlaybookModal(false)} />
       <AnalyticsModal open={analyticsModal} onClose={() => setAnalyticsModal(false)} />
+      <AddPlayModal dateKey={game.date} open={addPlayModal} onClose={() => setAddPlayModal(false)} />
       <LogoutModal open={logoutModal} onClose={() => setLogoutModal(false)} onLogout={() => logout()} />
     </>
   );

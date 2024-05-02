@@ -21,6 +21,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useGamesContext } from "../../hooks/useGamesContext";
 import { useLogout } from "../../hooks/useLogout";
 import { usePlaysContext } from "../../hooks/usePlaysContext";
+import { useSeasonContext } from "../../hooks/useSeasonContext";
 
 import { getGames } from "../../api/games";
 import { getPlays } from "../../api/plays";
@@ -39,8 +40,8 @@ const HomePage = () => {
   const { games, dispatchGames } = useGamesContext();
   const { logout } = useLogout();
   const { plays, dispatchPlays } = usePlaysContext();
+  const { season, dispatchSeason } = useSeasonContext();
 
-  const [selectedYear, setSelectedYear] = useState("2017");
   const [seasonGames, setSeasonGames] = useState([]);
   const [details, setDetails] = useState([]);
 
@@ -59,13 +60,13 @@ const HomePage = () => {
     if (user) {
       fetchGames();
     }
-  }, [user, selectedYear, dispatchGames]);
+  }, [user, season, dispatchGames]);
 
   useEffect(() => {
     if (games) {
-      setSeasonGames(games.filter((game) => isInSeason(game.date, selectedYear)));
+      setSeasonGames(games.filter((game) => isInSeason(game.date, season)));
     }
-  }, [games, selectedYear]);
+  }, [games, season]);
 
   useEffect(() => {
     const fetchPlays = async () => {
@@ -82,22 +83,22 @@ const HomePage = () => {
   useEffect(() => {
     if (seasonGames && plays) {
       setDetails([
-        { label: "Record", value: getRecord(seasonGames, selectedYear) },
-        { label: "Total Plays", value: getSeasonTotalPlays(plays, selectedYear) },
-        { label: "Plays per Game", value: getSeasonPlaysPerGame(seasonGames, plays, selectedYear) },
-        { label: "First Downs", value: getSeasonFirstDowns(plays, selectedYear) },
-        { label: "Touchdowns", value: getSeasonTouchdowns(plays, selectedYear) },
+        { label: "Record", value: getRecord(seasonGames, season) },
+        { label: "Total Plays", value: getSeasonTotalPlays(plays, season) },
+        { label: "Plays per Game", value: getSeasonPlaysPerGame(seasonGames, plays, season) },
+        { label: "First Downs", value: getSeasonFirstDowns(plays, season) },
+        { label: "Touchdowns", value: getSeasonTouchdowns(plays, season) },
       ]);
     }
-  }, [seasonGames, plays, selectedYear]);
+  }, [seasonGames, plays, season]);
 
   const handleSelectedYear = (year) => {
-    setSelectedYear(year);
+    dispatchSeason({ type: Actions.SET_SEASON, payload: year });
 
     setSeasonGames(games.filter((game) => isInSeason(game.date, year)));
   };
 
-  const getSeasonPlays = () => plays && plays.filter((play) => play.dateKey.slice(6, 10) === selectedYear);
+  const getSeasonPlays = () => plays && plays.filter((play) => play.dateKey.slice(6, 10) === season);
 
   return (
     <>
@@ -105,7 +106,7 @@ const HomePage = () => {
         <Grid item xs={12}>
           <HomeHeaderLayout
             details={details}
-            selectedYear={selectedYear}
+            selectedYear={season}
             onSelectYear={handleSelectedYear}
             onPlaybook={() => setPlaybookModal(true)}
             onAnalytics={() => setAnalyticsModal(true)}

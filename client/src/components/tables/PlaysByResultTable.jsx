@@ -51,24 +51,24 @@ const PlaysByResultTable = ({ plays, selectedPlay }) => {
             <TableRow key={play.play} sx={tableRowStyle}>
               <TableCell
                 sx={
-                  selectedPlay === play.play ? { borderWidth: "1px 0 1px 1px", ...selectedCellStyle, ...cellStyle } : cellStyle
+                  selectedPlay === play.play ? { borderWidth: "2px 0 2px 2px", ...selectedCellStyle, ...cellStyle } : cellStyle
                 }
               >
                 <TableTypography>{play.play}</TableTypography>
               </TableCell>
               <TableCell
-                sx={selectedPlay === play.play ? { borderWidth: "1px 0 1px 0", ...selectedCellStyle, ...cellStyle } : cellStyle}
+                sx={selectedPlay === play.play ? { borderWidth: "2px 0 2px 0", ...selectedCellStyle, ...cellStyle } : cellStyle}
               >
                 <TableTypography>{play.firstDowns}</TableTypography>
               </TableCell>
               <TableCell
-                sx={selectedPlay === play.play ? { borderWidth: "1px 0 1px 0", ...selectedCellStyle, ...cellStyle } : cellStyle}
+                sx={selectedPlay === play.play ? { borderWidth: "2px 0 2px 0", ...selectedCellStyle, ...cellStyle } : cellStyle}
               >
                 <TableTypography>{play.touchdowns}</TableTypography>
               </TableCell>
               <TableCell
                 sx={
-                  selectedPlay === play.play ? { borderWidth: "1px 1px 1px 0", ...selectedCellStyle, ...cellStyle } : cellStyle
+                  selectedPlay === play.play ? { borderWidth: "2px 2px 2px 0", ...selectedCellStyle, ...cellStyle } : cellStyle
                 }
               >
                 <TableTypography>{play.interceptions}</TableTypography>

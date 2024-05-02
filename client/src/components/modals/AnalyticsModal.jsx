@@ -1,5 +1,5 @@
 //Taylor Zweigle, 2024
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 
 import { useDataContext } from "../../hooks/useDataContext";
 import { usePlaysContext } from "../../hooks/usePlaysContext";
+import { useSeasonContext } from "../../hooks/useSeasonContext";
 
 import BarChart from "../../core/charts/BarChart";
 import Card from "../../core/card/Card";
@@ -23,9 +24,15 @@ import PlaysByResultTable from "../tables/PlaysByResultTable";
 const AnalyticsModal = ({ open, onClose }) => {
   const { SEASONS, FORMATIONS, PLAYS, POSITIONS } = useDataContext();
   const { plays } = usePlaysContext();
+  const { season: selectedSeason } = useSeasonContext();
 
-  const [season, setSeason] = useState(SEASONS[0]);
-  const [play, setPlay] = useState(PLAYS[0]);
+  const [season, setSeason] = useState();
+  const [play, setPlay] = useState();
+
+  useEffect(() => {
+    setSeason(selectedSeason);
+    setPlay(PLAYS[11]);
+  }, [selectedSeason, PLAYS]);
 
   const isInSeason = (date, season) => date.slice(6, 10) === season;
 

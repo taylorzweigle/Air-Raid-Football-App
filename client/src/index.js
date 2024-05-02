@@ -9,6 +9,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { DataContextProvider } from "./context/DataContext";
 import { GamesContextProvider } from "./context/GamesContext";
 import { PlaysContextProvider } from "./context/PlaysContext";
+import { SeasonContextProvider } from "./context/SeasonContext";
 import { ThemeContextProvider } from "./context/ThemeContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -18,13 +19,15 @@ root.render(
     <AuthContextProvider>
       <ThemeContextProvider>
         <DataContextProvider>
-          <GamesContextProvider>
-            <PlaysContextProvider>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
-            </PlaysContextProvider>
-          </GamesContextProvider>
+          <SeasonContextProvider>
+            <GamesContextProvider>
+              <PlaysContextProvider>
+                <BrowserRouter>
+                  <App />
+                </BrowserRouter>
+              </PlaysContextProvider>
+            </GamesContextProvider>
+          </SeasonContextProvider>
         </DataContextProvider>
       </ThemeContextProvider>
     </AuthContextProvider>

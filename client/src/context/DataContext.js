@@ -30,7 +30,7 @@ export const DataContextProvider = ({ children }) => {
       "Special",
     ],
     POSITIONS: ["X", "H", "Y", "Z", "T", "QB"],
-    RESULTS: ["First Down", "Touchdown", "Interception"],
+    RESULTS: ["First Down", "Touchdown", "Interception", "Sack"],
   };
 
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;

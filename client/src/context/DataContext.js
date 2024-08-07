@@ -29,7 +29,7 @@ export const DataContextProvider = ({ children }) => {
       "98 Shakes",
       "Special",
     ],
-    POSITIONS: ["X", "H", "Y", "Z", "T"],
+    POSITIONS: ["X", "H", "Y", "Z", "T", "QB"],
     RESULTS: ["First Down", "Touchdown", "Interception"],
   };
 

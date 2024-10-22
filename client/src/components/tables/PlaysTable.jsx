@@ -10,7 +10,6 @@ import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 
 import CloseIcon from "@mui/icons-material/Close";
-import EditIcon from "@mui/icons-material/Edit";
 
 import * as Actions from "../../actions";
 
@@ -60,8 +59,6 @@ const PlaysTable = ({ plays }) => {
     }
   };
 
-  const handleOnEdit = () => {};
-
   const handleOnDelete = async (id) => {
     const play = await deletePlay(id, user.token);
 
@@ -105,9 +102,6 @@ const PlaysTable = ({ plays }) => {
               </TableCell>
               {user && user.username === "airraidapp_edit" && (
                 <TableCell sx={cellStyle}>
-                  <IconButton size="small" onClick={handleOnEdit}>
-                    <EditIcon fontSize="small" />
-                  </IconButton>
                   <IconButton size="small" onClick={() => handleOnDelete(play._id)}>
                     <CloseIcon fontSize="small" />
                   </IconButton>

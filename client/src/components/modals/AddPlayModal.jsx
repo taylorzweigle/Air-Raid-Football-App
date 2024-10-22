@@ -34,6 +34,8 @@ const AddPlayModal = ({ dateKey, open, onClose }) => {
   const [firstDown, setFirstDown] = useState(false);
   const [touchdown, setTouchdown] = useState(false);
   const [interception, setInterception] = useState(false);
+  const [fumble, setFumble] = useState(false);
+  const [sack, setSack] = useState(false);
 
   const [downError, setDownError] = useState("");
   const [distanceError, setDistanceError] = useState("");
@@ -57,17 +59,30 @@ const AddPlayModal = ({ dateKey, open, onClose }) => {
   const handleResultChange = (e, value) => {
     setResult(value);
 
-    if (value === "First Down") {
-      setFirstDown(true);
-      return;
-    }
-    if (value === "Touchdown") {
-      setTouchdown(true);
-      return;
-    }
-    if (value === "Interception") {
-      setInterception(true);
-      return;
+    setFirstDown(false);
+    setTouchdown(false);
+    setInterception(false);
+    setFumble(false);
+    setSack(false);
+
+    switch (value) {
+      case "First Down":
+        setFirstDown(true);
+        break;
+      case "Touchdown":
+        setTouchdown(true);
+        break;
+      case "Interception":
+        setInterception(true);
+        break;
+      case "Fumble":
+        setFumble(true);
+        break;
+      case "Sack":
+        setSack(true);
+        break;
+      default:
+        break;
     }
   };
 
@@ -90,6 +105,8 @@ const AddPlayModal = ({ dateKey, open, onClose }) => {
       firstDown: firstDown,
       touchdown: touchdown,
       interception: interception,
+      fumble: fumble,
+      sack: sack,
     };
 
     const json = await createPlay(newPlay, user.token);
@@ -137,6 +154,8 @@ const AddPlayModal = ({ dateKey, open, onClose }) => {
     setFirstDown(false);
     setTouchdown(false);
     setInterception(false);
+    setFumble(false);
+    setSack(false);
 
     clearErrors();
   };
@@ -165,14 +184,22 @@ const AddPlayModal = ({ dateKey, open, onClose }) => {
             <Stack direction="column" spacing={1}>
               <Stack direction="column" spacing={0}>
                 <Typography variant="subtitle1">Distance</Typography>
-                <ButtonGroup items={DISTANCES} value={distance} onChange={(e, value) => setDistance(value)} />
+                <ButtonGroup
+                  items={DISTANCES}
+                  value={distance}
+                  onChange={(e, value) => setDistance(value)}
+                />
               </Stack>
               <Typography variant="caption">{distanceError}</Typography>
             </Stack>
             <Stack direction="column" spacing={1}>
               <Stack direction="column" spacing={0}>
                 <Typography variant="subtitle1">Formation</Typography>
-                <ButtonGroup items={FORMATIONS} value={formation} onChange={(e, value) => setFormation(value)} />
+                <ButtonGroup
+                  items={FORMATIONS}
+                  value={formation}
+                  onChange={(e, value) => setFormation(value)}
+                />
               </Stack>
               <Typography variant="caption">{formationError}</Typography>
             </Stack>
@@ -181,7 +208,12 @@ const AddPlayModal = ({ dateKey, open, onClose }) => {
                 <Typography variant="subtitle1">Play</Typography>
                 <Stack direction="column" spacing={0}>
                   {getRows(PLAYS).map((row) => (
-                    <ButtonGroup key={row} items={row} value={play} onChange={(e, value) => setPlay(value)} />
+                    <ButtonGroup
+                      key={row}
+                      items={row}
+                      value={play}
+                      onChange={(e, value) => setPlay(value)}
+                    />
                   ))}
                 </Stack>
               </Stack>
@@ -190,7 +222,11 @@ const AddPlayModal = ({ dateKey, open, onClose }) => {
             <Stack direction="column" spacing={1}>
               <Stack direction="column" spacing={0}>
                 <Typography variant="subtitle1">Position</Typography>
-                <ButtonGroup items={POSITIONS} value={position} onChange={(e, value) => setPosition(value)} />
+                <ButtonGroup
+                  items={POSITIONS}
+                  value={position}
+                  onChange={(e, value) => setPosition(value)}
+                />
               </Stack>
               <Typography variant="caption">{positionError}</Typography>
             </Stack>

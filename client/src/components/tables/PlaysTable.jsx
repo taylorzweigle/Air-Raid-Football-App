@@ -1,6 +1,7 @@
 //Taylor Zweigle, 2024
 import React from "react";
 
+import IconButton from "@mui/material/IconButton";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,9 +9,20 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 
-import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
+
+import * as Actions from "../../actions";
+
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { usePlaysContext } from "../../hooks/usePlaysContext";
+
+import { deletePlay } from "../../api/plays";
 
 const PlaysTable = ({ plays }) => {
+  const { user } = useAuthContext();
+  const { dispatchPlays } = usePlaysContext();
+
   const headerCellStyle = {
     padding: "8px 16px",
     backgroundColor: "background.border",
@@ -21,15 +33,41 @@ const PlaysTable = ({ plays }) => {
   };
 
   const cellStyle = {
-    padding: "8px 16px",
+    padding: "4px 16px",
   };
 
-  const TableTypography = ({ children, score, opponentScore }) => {
+  const TableTypography = ({ children, touchdown }) => {
     return (
-      <Typography variant="body2" color={score > opponentScore ? "primary" : "text.secondary"}>
+      <Typography variant="body2" color={touchdown ? "primary" : "text.secondary"}>
         {children}
       </Typography>
     );
+  };
+
+  const renderResult = (play) => {
+    if (play.firstDown) {
+      return "FD";
+    } else if (play.touchdown) {
+      return "TD";
+    } else if (play.interception) {
+      return "INT";
+    } else if (play.fumble) {
+      return "FUM";
+    } else if (play.sack) {
+      return "SCK";
+    } else {
+      return null;
+    }
+  };
+
+  const handleOnEdit = () => {};
+
+  const handleOnDelete = async (id) => {
+    const play = await deletePlay(id, user.token);
+
+    if (play.json) {
+      dispatchPlays({ type: Actions.DELETE_PLAY, payload: play.json });
+    }
   };
 
   return (
@@ -40,9 +78,8 @@ const PlaysTable = ({ plays }) => {
           <TableCell sx={headerCellStyle}>Formation</TableCell>
           <TableCell sx={headerCellStyle}>Play</TableCell>
           <TableCell sx={headerCellStyle}>Position</TableCell>
-          <TableCell sx={headerCellStyle}>First</TableCell>
-          <TableCell sx={headerCellStyle}>TD</TableCell>
-          <TableCell sx={headerCellStyle}>INT</TableCell>
+          <TableCell sx={headerCellStyle}>Result</TableCell>
+          {user && user.username === "airraidapp_edit" && <TableCell sx={headerCellStyle}></TableCell>}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -50,26 +87,32 @@ const PlaysTable = ({ plays }) => {
           plays.map((play) => (
             <TableRow key={play._id} sx={tableRowStyle}>
               <TableCell sx={cellStyle}>
-                <TableTypography>{`${play.down} ${play.distance}`}</TableTypography>
+                <TableTypography
+                  touchdown={play.touchdown}
+                >{`${play.down} ${play.distance}`}</TableTypography>
               </TableCell>
               <TableCell sx={cellStyle}>
-                <TableTypography>{play.formation}</TableTypography>
+                <TableTypography touchdown={play.touchdown}>{play.formation}</TableTypography>
               </TableCell>
               <TableCell sx={cellStyle}>
-                <TableTypography isBold>{play.play}</TableTypography>
+                <TableTypography touchdown={play.touchdown}>{play.play}</TableTypography>
               </TableCell>
               <TableCell sx={cellStyle}>
-                <TableTypography>{play.position}</TableTypography>
+                <TableTypography touchdown={play.touchdown}>{play.position}</TableTypography>
               </TableCell>
               <TableCell sx={cellStyle}>
-                <TableTypography>{play.firstDown ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
+                <TableTypography touchdown={play.touchdown}>{renderResult(play)}</TableTypography>
               </TableCell>
-              <TableCell sx={cellStyle}>
-                <TableTypography>{play.touchdown ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
-              </TableCell>
-              <TableCell sx={cellStyle}>
-                <TableTypography>{play.interception ? <CheckIcon color="primary" fontSize="xsmall" /> : null}</TableTypography>
-              </TableCell>
+              {user && user.username === "airraidapp_edit" && (
+                <TableCell sx={cellStyle}>
+                  <IconButton size="small" onClick={handleOnEdit}>
+                    <EditIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton size="small" onClick={() => handleOnDelete(play._id)}>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </TableCell>
+              )}
             </TableRow>
           ))}
       </TableBody>

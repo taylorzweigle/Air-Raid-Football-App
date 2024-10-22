@@ -26,7 +26,19 @@ const getPlay = async (req, res) => {
 };
 
 const createPlay = async (req, res) => {
-  const { dateKey, down, distance, formation, play, position, firstDown, touchdown, interception } = req.body;
+  const {
+    dateKey,
+    down,
+    distance,
+    formation,
+    play,
+    position,
+    firstDown,
+    touchdown,
+    interception,
+    fumble,
+    sack,
+  } = req.body;
 
   try {
     const newPlay = await Play.create({
@@ -39,6 +51,8 @@ const createPlay = async (req, res) => {
       firstDown,
       touchdown,
       interception,
+      fumble,
+      sack,
     });
 
     res.status(200).json(newPlay);

@@ -40,6 +40,14 @@ const playSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  fumble: {
+    type: Boolean,
+    required: true,
+  },
+  sack: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Play", playSchema);
